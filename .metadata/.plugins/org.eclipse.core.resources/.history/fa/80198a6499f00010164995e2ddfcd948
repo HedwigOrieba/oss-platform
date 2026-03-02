@@ -1,0 +1,11 @@
+package com.bazotech.store.domain;
+
+public enum Colors {
+	RED("light"),
+	GREEN("violet"),
+	BLUE("cyan");
+	
+	Colors(String strength){
+		
+	}
+}

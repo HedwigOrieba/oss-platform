@@ -1,0 +1,67 @@
+package com.bazotech.store.controllers;
+
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.bazotech.store.domain.Product;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@Controller
+public class ProductController {
+	
+	/* End-point to provide the product Registration Form. */
+	@GetMapping("/products/add")
+	public String addProduct(Model model){
+		
+		/* create an instance of the product class. */
+		var ProductItem = new Product();
+		
+		/* Add the item to the model so that the form th:object attribute can bind to it */
+		model.addAttribute("productItem", ProductItem);
+		
+		/* create product categories */
+		List<String> itemCategories = List.of("Electronics", "Books", "Clothing", "Home & Kitchen");
+		
+		/* add the categories to the model */
+		model.addAttribute("itemCategories", itemCategories);
+		
+		/* return the item form */
+		return "product_form";
+	}
+	
+	
+	/* Process Product Information */
+	@PostMapping("/process/productRegistration")
+	public String processRegistration(
+			Model model, @ModelAttribute("productItem") Product form_submittedProduct,
+			HttpServletRequest req,
+			HttpServletResponse res) {
+		
+		/* begin method body*/
+		Enumeration<String> requestParams  = req.getParameterNames();
+		
+		while(requestParams.hasMoreElements()) {
+			try {
+				res.getWriter().write(requestParams.nextElement());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		model.addAttribute("submitted_form",form_submittedProduct);
+		return "frmProcessProduct";
+	}
+	
+}

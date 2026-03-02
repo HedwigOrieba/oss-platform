@@ -1,0 +1,34 @@
+package com.bazotech.store.domain;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
+@Table(name="item_tags")
+@Data
+@Entity
+public class ItemTag {
+	
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@NotNull
+	@Id
+	@Column(name="tag_id")
+	private Long tagId;
+	
+	@NotBlank
+	@Column(name="tag_name", nullable=false, unique=true)
+	private String tagName;
+	
+	@ManyToMany(mappedBy="tags") 
+	private List<InventoryItem> items = new ArrayList<>();
+}

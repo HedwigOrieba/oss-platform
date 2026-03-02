@@ -1,0 +1,5 @@
+package com.bazotech.store.jdbcrepositories;
+
+public interface OrderRepository {
+
+}

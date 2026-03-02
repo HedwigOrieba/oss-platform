@@ -1,0 +1,73 @@
+<!Doctype html>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.com">
+
+	<head>
+		<title> Product Form </title>
+		<meta charset="utf-8"/>
+		<meta name="author" content="Hedwig Orieba"/>
+	</head>
+	<body>
+	
+		<h3> PRODUCT REGISTRATION FORM</h3>
+		
+		<form autocomplete="off" method="POST" th:action="@{/process/productRegistration}" th:object="${productItem}" name="productForm" >
+		
+			<label for="productName">Product Name:</label>
+			<input type="text" id="productName" name="productName" th:field="*{productName}"/>
+			<br/>
+			<br/>
+			
+			<label for="productCategory">Product Category:</label>
+			<select id="productCategory" name="productCategory" th:field="*{productCategory}">
+				<option th:each="category : ${itemCategories}" th:text="${category}" selected th:value="${category}"></option>
+			</select>
+			<br/>
+			<br/>
+			
+			<label for="productDescription"> Product Description:</label>
+			<input type="text" id="productDescription" name="productDescription" th:field="*{productDescription}"/>
+			<br/>
+			<br/>
+			
+			<button type="submit">Submit Form</button>
+		</form>
+	</body>
+	
+	<!--  <script type="text/JavaScript">
+		let form = document.forms["productForm"];
+		form.addEventListener('submit', evt =>{
+			evt.preventDefault();
+			
+			let formData = {
+                productName: form.productName.value,
+                productCategory: form.productCategory.value,
+                productDescription: form.productDescription.value
+            };
+			
+			let strFormData = JSON.stringify(formData);
+			
+			let xhr = new XMLHttpRequest();
+			//xhr.open("POST","/process/productRegistration", true);
+			xhr.open("POST","/process/jsonProductRegistration", true);
+			xhr.setRequestHeader("Content-Type", "application/json");
+			xhr.setRequestHeader("x-author","Hedwig Orieba");
+			
+			/* process the response from the server */
+			xhr.onload = function(){
+                if(xhr.status === 200){
+                    console.log("Response from server: " + xhr.responseText);
+                } else {
+                    console.error("Error occurred: " + xhr.statusText);
+                }
+            };
+           
+            /* send the request data to the server. */
+            xhr.send(strFormData);
+            
+            /* alert form submission success. */
+			self.alert("Submitted the form to the web server.")
+			
+		});
+	</script>-->
+	
+</html>

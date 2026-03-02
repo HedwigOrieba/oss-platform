@@ -1,0 +1,8 @@
+package com.bazotech.store.repositories;
+
+import org.springframework.data.repository.CrudRepository;
+
+import com.bazotech.store.domain.Merchant;
+
+public interface MerchantRepository extends CrudRepository<Merchant, Long> {	
+}

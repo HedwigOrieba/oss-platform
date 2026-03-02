@@ -1,0 +1,24 @@
+<!Doctype html>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<title>Thymeleaf Selection Expressions</title>
+		<meta charset="utf-8"/>
+		<meta name="author" content="Hedwig Orieba"/>
+	</head>
+	
+	<body>
+	
+		<h3> Selection Expressions</h3>
+		
+		<div th:object="${selectionuser}">
+			<p> 
+				user name:<strong th:text="*{username}"></strong> 
+			</p>
+			<p> 
+				password:<strong th:text="*{password}"></strong> 
+			</p>
+		</div>
+		
+	</body>
+</html>

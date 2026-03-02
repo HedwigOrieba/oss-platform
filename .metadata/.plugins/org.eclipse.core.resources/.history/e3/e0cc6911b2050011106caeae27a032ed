@@ -1,0 +1,75 @@
+package com.bazotech.store.services;
+
+import org.springframework.stereotype.Service;
+
+import com.bazotech.store.repositories.MerchantRepository;
+
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+@Service
+public class MerchantService {
+	
+	private static final org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(MerchantService.class);
+	private final MerchantRepository merchantRepository;
+	
+	
+	/* Register a Merchant */
+	@Transactional
+	public void registerMerchant() {}
+	
+	
+	
+	/* Fetch merchant from db given the */
+	@Transactional
+	public void getMerchantById(Long merchantId) {}
+	
+	
+	
+	/* Get merchant names */
+	@Transactional
+	public void getMerchantNames() {}
+	
+	
+	
+	/* Get merchant by email */
+	@Transactional
+	public void getMerchantByEmail() {}
+	
+	
+	
+	/* Get all Merchants */
+	@Transactional
+	public void getAllMerchants() {}
+	
+	
+	
+	/* Update Merchant Basic Information */
+	@Transactional
+	public void updateMerchantInfo() {}
+	
+	
+	
+	/* Update Merchant Address */
+	@Transactional
+	public void updateMerchantAddress(Long merchantID) {}
+	
+	
+	
+	/* Removing a Merchant Address */
+	@Transactional
+	public void removeExistingMerchantAddress(Long merchantID) {}
+	
+	
+	
+	/* Adding a merchant address */
+	@Transactional
+	public void addMerchantAddress(Long merchantID) {}
+	
+	
+	
+	/* Deleting a vendor */
+	public void deleteMerchant(Long merchantID) {}
+	
+}

@@ -1,0 +1,443 @@
+package com.bazotech.store;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+import java.util.List;
+
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.bazotech.store.domain.BusinessAddress;
+import com.bazotech.store.domain.InventoryItem;
+import com.bazotech.store.domain.ItemBatch;
+import com.bazotech.store.domain.ItemCategory;
+import com.bazotech.store.domain.ItemPricing;
+import com.bazotech.store.domain.ItemTag;
+import com.bazotech.store.domain.Merchant;
+import com.bazotech.store.domain.Product;
+import com.bazotech.store.domain.Store;
+import com.bazotech.store.domain.StoreBin;
+import com.bazotech.store.domain.StoreItem;
+import com.bazotech.store.domain.StoreRack;
+import com.bazotech.store.domain.StoreShelf;
+import com.bazotech.store.domain.Vendor;
+import com.bazotech.store.repositories.VendorRepository;
+import com.bazotech.store.services.MerchantService;
+import com.bazotech.store.services.VendorService;
+
+
+@SpringBootApplication
+public class StoreApplication {
+
+	public static void main(String[] args) {
+		//SpringApplication.run(StoreApplication.class, args);
+		//Colors color = Colors.RED;
+		//System.out.println("Selected color: " + color);
+		
+		 //Colors[] color =Colors.values();
+		 //for(Colors c: color) {
+		//	 System.out.println("Color: " + c);
+		 //}
+		
+		var programmingLangs = List.of("Java", "Python", "JavaScript", "C#", "Ruby");
+		programmingLangs.stream()
+		.filter(lang -> lang.startsWith("J"))
+		.forEach(lang -> System.out.println("Programming Language: " + lang));
+		
+		// using flat-map
+//		var mixedStream = Stream.of(List.of(1,2,3), List.of("a","b","c"));
+//		mixedStream
+//		.flatMap(list -> list.stream())
+//		.forEach(item -> System.out.print(item));
+		
+		System.out.println();
+		
+		/** creating a vendor **/
+		
+		Vendor itemsVendor = Vendor.builder()
+							  	   .vendorName("Oracle Corporation")
+								   .vendorDescription("The strongest software company")
+								   .vendorEmail("service.info@bazotech.com")
+								   .vendorMobile("0778373399")
+								   .build();
+		
+		
+		/** setting the business addresses using helper methods **/
+		itemsVendor.addBusinessAddress(BusinessAddress.builder()
+											.city("Washington")
+											.country("United States of America")
+											.region("Central")
+											.vendor(itemsVendor)
+											.merchant(null)
+											.street("Glass ware")
+											.build()
+										);
+		
+		itemsVendor.addBusinessAddress(
+										BusinessAddress.builder()
+										.city("Kampala")
+										.country("Uganda")
+										.region("Central")
+										.vendor(itemsVendor)
+										.merchant(null)
+										.street("Wilson Street")
+										.build()
+				);
+		
+		itemsVendor.addBusinessAddress(
+										BusinessAddress.builder()
+										.city("Lagos")
+										.country("Nigeria")
+										.vendor(itemsVendor)
+										.merchant(null)
+										.region("Western")
+										.street("Elegu Street")
+										.build()
+				);
+		
+		List<BusinessAddress> vendorAddresses = List.of(
+				
+				BusinessAddress.builder()
+					.city("Washington")
+					.country("United States of America")
+					.region("Central")
+					.vendor(itemsVendor)
+					.merchant(null)
+					.street("Glass ware")
+					.build(),
+			
+				BusinessAddress.builder()
+					.city("Kampala")
+					.country("Uganda")
+					.region("Central")
+					.vendor(itemsVendor)
+					.merchant(null)
+					.street("Wilson Street")
+					.build(),
+			
+				BusinessAddress.builder()
+					.city("Lagos")
+					.country("Nigeria")
+					.vendor(itemsVendor)
+					.merchant(null)
+					.region("Western")
+					.street("Elegu Street")
+					.build()
+					
+				);
+						
+		//itemsVendor.addBusinessAddress(null);
+		itemsVendor.setBusinessAddresses(vendorAddresses);
+		
+		System.out.println("Item Vendor:" + itemsVendor.toString());
+		
+		System.out.println();
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*** -------- Query Play Book Environment -------------***/
+		
+		var context = SpringApplication.run(StoreApplication.class);
+		var vendorService = context.getBean(VendorService.class);
+		
+		// Register a vendor
+		/// vendorService.registerVendor();
+		
+		// Get a vendor by id
+		/// vendorService.getVendorById(1L);
+		
+		// Get a vendor by name
+	    ///	vendorService.getVendorByName();
+		   
+		// Get vendor by email
+		/// vendorService.getVendorByEmail();
+		   
+		// Get all vendors
+		/// vendorService.getAllRegisteredVendors();
+		
+		
+		// Update vendor by id
+		/// vendorService.updateVendorInfo(1L);
+		
+		// Get all vendor addresses
+		/// vendorService.getAllVendorAddresses(1L);
+		
+		// update a vendor address
+		 /// vendorService.updateVendorAddress(1L);
+		  
+		// removing vendor address
+		///  vendorService.removeExistingVendorAddress(1L);
+		
+	
+		// adding a new vendor address
+		 /// vendorService.addNewVendorAddress(1L);
+		 
+		// deleting a vendor
+		/// vendorService.deleteVendor(1L);
+		
+		
+		
+		
+		/***** merchant Service *****/
+		
+		var merchantService = context.getBean(MerchantService.class);
+		
+		// Register a merchant
+		/// merchantService.registerMerchant();
+		
+		// get a merchant by id
+		/// merchantService.getMerchantById(1L);
+		 
+		 // get a merchant by name
+		 /// merchantService.getMerchantNames();
+		 
+		 // get a merchant by email
+		  merchantService.getMerchantByEmail();
+		 
+		 
+		 
+		 
+		
+		/*** --------- End PlayBook Environment --------------- **/
+		
+		
+		
+		
+		System.out.println();
+		
+		System.out.println();
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/** creating a merchant **/
+		Merchant merchant = Merchant.builder()
+							  .merchantName("BazoTech")
+							  .merchantEmail("service.info@bazotech.com")
+							  .merchantMobile("78439060")
+							  .merchantDescription("A technology giant company in kampala")
+							  .build();
+
+		List<BusinessAddress> merchantAddresses = List.of(
+				BusinessAddress.builder()
+								.city("Kampala")
+								.country("Kampala")
+								.region("Central")
+								.street("Sia Amara")
+								.build(),
+								
+				BusinessAddress.builder()
+								.street("Johnson Street")
+								.city("Kampala")
+								.country("kampala")
+								.region("Central")
+								.build(),
+								
+				BusinessAddress.builder()
+								.street("Kitana Amir")
+								.city("Kampala")
+								.country("Uganda")
+								.region("Central")
+								.build()
+			); 
+		
+		merchant.setBusinessAddresses(merchantAddresses);
+		
+		System.out.println("Merchant:"+ merchant.toString());
+		
+		System.out.println();
+		
+		
+		/** creating item categories **/
+		ItemCategory electronics = ItemCategory.builder()
+												.categoryName("Electronics")
+												.categoryDescription("Devices and Gadgets.")
+												.build();
+		
+		System.out.println("Item Category:"+ electronics.toString());
+		
+		
+		/** creating ItemTags **/
+		ItemTag discountTag = ItemTag.builder()
+								.tagName("Discounted")
+								.build();
+		
+		ItemTag importTag = ItemTag.builder()
+				.tagName("Imported")
+				.build();
+		
+		ItemTag fragileTag = ItemTag.builder()
+				.tagName("Fragile")
+				.build();
+		
+		System.out.println();
+		System.out.println("Tag1:" + discountTag.toString());
+		System.out.println("Tag2:" + importTag.toString());
+		System.out.println("Tag3:" + fragileTag.toString());
+		
+		
+		
+		
+		/** creating an inventory item **/
+		InventoryItem inventoryItem = InventoryItem.builder()
+												   .merchant(merchant)
+												   .vendor(itemsVendor)
+												   .category(electronics)
+												   .itemName("Laptop")
+												   .itemUom(InventoryItem.UomType.BOX)
+												   .itemQuantity(10)
+												   .tags(List.of(discountTag, importTag, fragileTag))
+												   .itemDescription("A personal computer for field work")
+												   .build();
+		
+		System.out.println();
+		System.out.println("Inventory Item: " + inventoryItem);
+		
+		
+		/** Creating Products **/
+		Product product = Product.builder()
+				.brand("Dell")
+				.model("XPS 13")
+				.specification("500GB HDD, 32GB RAM, 1.7MHz")
+				.inventoryItem(inventoryItem)
+				.build();
+		
+		System.out.println();
+		System.out.println("Product:" + product.toString());
+		
+		
+		/** Creating a Batch **/
+		ItemBatch firstBatch = ItemBatch.builder()
+								.inventoryItem(inventoryItem)
+								.batchNumber("BOO1")
+								.manufacturedOn(LocalDateTime.of(2022, 10, 10, 11, 23))
+								.expiresOn(LocalDateTime.of(2023, 8, 14, 11, 23))
+								.batchQuantity(5)
+								.build();
+		
+		System.out.println();
+		System.out.println("Item Batch:" + firstBatch.toString());
+		
+		
+		
+		
+		/*** Creating a Store ***/
+		Store mystore = Store.builder()
+						   .storeName("Sample Store")
+						   .storeLocation("Kampala Buto")
+						   .storeType(Store.StoreType.MAIN)
+						   .storeDescription("Main store for all computer devices.")
+						   .build();
+		
+		System.out.println();
+		System.out.println("Store:" + mystore.toString());
+		
+		
+		
+		
+		/** Creating Rack & Mapping it to a store **/
+		
+		// Rack1
+		StoreRack r1 = StoreRack.builder()
+							.rackLabel("R1")
+							.store(mystore) // map a rack to a store
+							.build();
+		
+		System.out.println("Store Rack:" + r1.toString());
+		
+		
+		
+		
+		/** Creating 3 store shelves & binding them to a rack **/
+		StoreShelf s1 = StoreShelf.builder()
+								.shelfLabel("S1")
+								.rack(r1) // binding to a rack
+								.build();
+		
+		
+		
+		
+		
+		/** creating 3 bins & binding them to a shelf **/
+		StoreBin b1 = StoreBin.builder()
+							.binLabel("B1")
+							.shelf(s1) // binding to a shelf
+							.build();
+		
+		StoreBin b2 = StoreBin.builder()
+							.binLabel("B2")
+							.shelf(s1) // binding to a shelf
+							.build();
+		
+		StoreBin b3 = StoreBin.builder()
+							.binLabel("B3")
+							.shelf(s1) // binding to a shelf
+							.build();
+		
+		System.out.println("Bin: " + b1.toString());
+		System.out.println("Bin: " + b2.toString());
+		System.out.println("Bin: " + b3.toString());
+		
+		
+		/** creating item pricing **/
+		ItemPricing goldPrice = ItemPricing.builder()
+									.priceCategory(ItemPricing.PriceCategory.GOLD)
+									.categoryAmount(new BigDecimal(500))
+									.item(inventoryItem) // binding Gold tariff to item
+									.build();
+		
+		ItemPricing silverPrice = ItemPricing.builder()
+									.priceCategory(ItemPricing.PriceCategory.SILVER)
+									.categoryAmount(new BigDecimal(300))
+									.item(inventoryItem)
+									.build();
+		
+		ItemPricing platPrice = ItemPricing.builder()
+				.priceCategory(ItemPricing.PriceCategory.SILVER)
+				.categoryAmount(new BigDecimal(300))
+				.item(inventoryItem)
+				.build();
+		
+		
+		/* create a store item */
+		StoreItem myStoreItem = StoreItem.builder()
+										.store(mystore) // map to a store
+										.item(inventoryItem) // map to an item
+										.itemBatch(firstBatch) // map to a batch
+										.price(platPrice)
+										.itemsInStock(40)
+										.itemReorderLevel(20)
+										.itemPostingOn(LocalDateTime.now())
+										.bin(b1) // map to a bin
+										.build();
+		
+		System.out.println("store Item: "+ myStoreItem.toString());
+									
+		
+	} /* end main method. */
+
+	
+} // end class

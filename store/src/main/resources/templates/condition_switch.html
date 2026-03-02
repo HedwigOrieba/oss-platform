@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+	</head>
+	<!-- 
+	<body>
+		<h1>Condition Switch Example</h1>
+        <div th:switch="${color}">
+            <p th:case="'Blue'">It's Blue Color! Color of hope.</p>
+            <p th:case="*">Detected some unknown color.</p>
+        </div>
+	</body>
+	 -->
+	
+	 
+	 <frameset rows="20%,20%,*" border="1">
+     	<frame th:src="@{/user}" name="myframe"/>
+	 	<frame th:src="@{/link_expression}"/>
+	 	<frame th:src="@{/users}"/>
+	 </frameset>
+	 
+</html>

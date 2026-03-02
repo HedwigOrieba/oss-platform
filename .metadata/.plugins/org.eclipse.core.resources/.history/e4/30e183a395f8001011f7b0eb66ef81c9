@@ -1,0 +1,49 @@
+package com.bazotech.store.domain;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+
+@Setter
+@Getter
+@Entity
+@Table( name = "item_batches", uniqueConstraints = { 
+		@UniqueConstraint(name = "uq_item_batch", columnNames = {"item_id", "batch_number"}) 
+		} 
+)
+public class ItemBatch {
+	@Id 
+	@GeneratedValue(strategy = GenerationType.IDENTITY) 
+	@Column(name = "batch_id") 
+	private Long batchId;
+	
+	@ManyToOne(fetch = FetchType.LAZY) 
+	@JoinColumn(name = "item_id", nullable = false) 
+	private InventoryItem inventoryItem;
+	
+	@Column(name = "batch_number", nullable = false) 
+	private String batchNumber;
+	
+	@Column(name = "manufactured_on", nullable = false) 
+	private LocalDateTime manufacturedOn;
+	
+	@Column(name = "expires_on") 
+	private LocalDateTime expiresOn;
+	
+	@Column(name = "batch_quantity", nullable = false) 
+	private Integer batchQuantity = 0;
+	
+	// Relationship with StoreItems (one batch can appear in many stores) 
+	@OneToMany(mappedBy = "itemBatch", cascade = CascadeType.ALL, orphanRemoval = true) 
+	private List<StoreItem> storeItems = new ArrayList<>();
+}

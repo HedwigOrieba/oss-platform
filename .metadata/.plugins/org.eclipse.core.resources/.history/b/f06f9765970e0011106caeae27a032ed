@@ -1,0 +1,19 @@
+package com.bazotech.store.services;
+
+import org.springframework.stereotype.Service;
+
+import com.bazotech.store.repositories.StoreShelfRepository;
+
+import lombok.AllArgsConstructor;
+
+@Service
+@AllArgsConstructor
+public class StoreShelfService {
+	
+	private final StoreShelfRepository storeShelfRepository;
+	
+	// create a shelf
+	public void createShelf() {
+		var shelf = storeShelfRepository.findById(1L).orElseThrow();
+	}
+}

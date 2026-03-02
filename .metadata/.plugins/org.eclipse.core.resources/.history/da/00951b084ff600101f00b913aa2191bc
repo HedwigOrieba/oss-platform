@@ -1,0 +1,50 @@
+package com.bazotech.store.domain;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor
+@NoArgsConstructor(access=AccessLevel.PRIVATE ,force=true)
+@Setter
+@Getter
+@Table(name="product_parts")
+@Entity
+public class Part {
+	
+	@Id
+	@Column(name="part_id")
+	private final String id;
+	
+	@Column(name="part_name")
+	private final String name;
+	
+	@Column(name="part_category")
+	private final Category category;
+	
+	@Column(name="part_description")
+	private final String description;
+	
+	public enum Category{
+		TEXTILES,    	/* fabrics, clothing */
+		HEALTH,		 	/* medical supplies */
+		SECURITY,	 	/* safety equipment: locks, alarms, surveillance systems */
+		TECHNOLOGY,  	/* hardware, software, electronics */
+		FOOD,		 	/* groceries, beverages, snacks */
+		/*ENERGY,      	 fuel, electricity, renewable energy */
+		/* TRANSPORT,  	 vehicles, parts, accessories */
+		/* EDUCATION,   	 books, learning materials,course, training */
+		/* FINANCE,	 	 banking, investment, insurance, fintech */
+		/* AGRICULTURE, 	 farming, gardening, livestock, produce */
+		/* ENTERTAINMENT, 	 media, games, leisure */
+		OTHER			/* miscellaneous items */
+	}
+	
+}

@@ -1,0 +1,1 @@
+##alter table store_db.vendor_merchant_associations add column relationship_description text not null;

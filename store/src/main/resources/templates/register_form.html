@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html lang="en-US" xmlns="http://www.thymeleaf.org">
+
+	<head>
+        <title>Thymeleaf Register Form</title>
+        <meta charset="utf-8"/>
+        <meta name="author" content="Hedwig Orieba"/>
+    </head>
+    
+    <body>
+    		<div align="center">
+    		    <h3>User Registration Form</h3>
+    		    
+    			<form name="userRegistrationForm" th:action="@{/register/save}" th:object="${userForm}" method="post">
+    			
+    				<label>full name:</label>
+    				<input type="text" th:field="*{name}"/>
+    				<br/>
+    				<br/>
+    				
+    				<label>Email:</label>
+    				<input type="text" th:field="*{email}"/>
+    				<br/>
+    				<br/>
+    				
+    				<label>Password:</label>
+    				<input type="password" th:field="*{password}"/>
+    				<br/>
+    				<br/>
+    				
+    				<label>Gender:</label>
+    				<input type="radio" name="gender" th:field="*{gender}" value="male"/> Male
+    				<input type="radio" name="gender" th:field="*{gender}" value="female"/> Female
+    				<br/>
+    				<br/>
+    				
+    				<label>Profession:</label>
+    				<select th:field="*{profession}">
+    					<option th:each="profession:${professions}" th:value="${profession}" th:text="${profession}"></option>
+    				</select>
+    				<br/>
+    				<br/>
+    				
+    				<label>Address:</label>
+    				<textarea th:field="*{address}" rows="5" cols="25">Enter address here....</textarea>
+    				<br/>
+    				<br/>
+    				
+    				<button type="submit">Register</button>
+    				
+    			</form>
+    		</div>
+    </body>
+    
+</html>

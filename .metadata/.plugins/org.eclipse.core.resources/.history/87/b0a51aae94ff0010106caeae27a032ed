@@ -1,0 +1,15 @@
+package com.bazotech.store.services;
+
+import org.springframework.stereotype.Service;
+
+import com.bazotech.store.repositories.VendorRepository;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+@Service
+public class VendorService {
+	
+	private final VendorRepository vendorRepository;
+	
+}

@@ -1,0 +1,78 @@
+package com.bazotech.store.converters;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+
+import com.bazotech.store.domain.Part;
+
+
+import lombok.extern.slf4j.Slf4j;
+
+@Component
+@Slf4j
+public class ProductByIdConverter implements Converter<String, Part>{
+
+	private Map<String, Part> productPartsMap = new HashMap<>();
+	
+	/* class constructor */
+	
+	public ProductByIdConverter() {
+		
+		/* Technology Parts */
+		productPartsMap.put("PC", new Part("PC", "Personal Computer", Part.Category.TECHNOLOGY));
+		productPartsMap.put("LAP", new Part("LAP", "Laptop", Part.Category.TECHNOLOGY));
+		productPartsMap.put("MON", new Part("MON", "Monitor", Part.Category.TECHNOLOGY));
+		productPartsMap.put("KEY", new Part("KEY", "Keyboard", Part.Category.TECHNOLOGY));
+		productPartsMap.put("MOU", new Part("MOU", "Mouse", Part.Category.TECHNOLOGY));
+		productPartsMap.put("HDD", new Part("HDD", "Hard Drive", Part.Category.TECHNOLOGY));
+		productPartsMap.put("RAM", new Part("RAM", "Memory Module", Part.Category.TECHNOLOGY));
+		productPartsMap.put("PSU", new Part("PSU", "Power Supply Unit", Part.Category.TECHNOLOGY));
+		productPartsMap.put("GPU", new Part("GPU", "Graphics Card", Part.Category.TECHNOLOGY));
+		
+		/* Textile Parts */
+		productPartsMap.put("FOOTWARE", new Part("FOOTWARE", "Boots", Part.Category.TEXTILES));
+		productPartsMap.put("JACKET", new Part("JACKET", "Winter Jacket", Part.Category.TEXTILES));
+		productPartsMap.put("GLOVES", new Part("GLOVES", "Leather Gloves", Part.Category.TEXTILES));
+		productPartsMap.put("HAT", new Part("HAT", "Beanie Hat", Part.Category.TEXTILES));
+		productPartsMap.put("SCARF", new Part("SCARF", "Wool Scarf", Part.Category.TEXTILES));
+		
+		/* Health Parts */
+		productPartsMap.put("VITAMINS", new Part("VITAMINS", "Multivitamins", Part.Category.HEALTH));
+		productPartsMap.put("FIRSTAID", new Part("FIRSTAID", "First Aid Kit", Part.Category.HEALTH));
+		productPartsMap.put("MASKS", new Part("MASKS", "Surgical Masks", Part.Category.HEALTH));
+		productPartsMap.put("SANITIZER", new Part("SANITIZER", "Hand Sanitizer", Part.Category.HEALTH));
+		
+		/* Security Parts */
+		productPartsMap.put("LOCK", new Part("LOCK", "Padlock", Part.Category.SECURITY));
+		productPartsMap.put("ALARM", new Part("ALARM", "Security Alarm", Part.Category.SECURITY));
+		productPartsMap.put("CAMERA", new Part("CAMERA", "Surveillance Camera", Part.Category.SECURITY));
+		productPartsMap.put("FIREEXT", new Part("FIREEXT", "Fire Extinguisher", Part.Category.SECURITY));
+		
+		/* Food Parts */
+		productPartsMap.put("SNACKS", new Part("SNACKS", "Assorted Snacks", Part.Category.FOOD));
+		productPartsMap.put("BEVERAGES", new Part("BEVERAGES", "Beverage Pack", Part.Category.FOOD));
+		productPartsMap.put("GROCERIES", new Part("GROCERIES", "Grocery Bag", Part.Category.FOOD));
+		productPartsMap.put("FROZEN", new Part("FROZEN", "Frozen Foods", Part.Category.FOOD));
+		
+	}
+	
+	
+	//private IngredientRepository ingredientRepo;
+	
+	//public IngredientByIdConverter(IngredientRepository ingredientRepo) {
+		//this.ingredientRepo = ingredientRepo;
+	//}
+	
+	
+	@Override
+	public Part convert(String id) {
+		//log.info("Recieved Item Id: {}", id);
+		return productPartsMap.get(id);
+		//return ingredientRepo.findById(id).orElse(null);
+	}
+	
+
+}

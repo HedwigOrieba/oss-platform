@@ -1,0 +1,35 @@
+package com.bazotech.store.domain;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.Table;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
+@Builder
+@Setter
+@Getter
+@Table(name="store_rsb_mappings")
+@EqualsAndHashCode(onlyExplicitlyIncluded=true)
+@Entity
+public class StoreRsbMapping {
+	
+	@EmbeddedId
+	@EqualsAndHashCode.Include
+	private StoreRsbId id;
+	
+	@Column(name="slot_status")
+	private String slotStatus;
+	
+	@ManyToOne
+	@MapsId("rackID")
+	@JoinColumn(name="rack_id")
+	private StoreRack storageRack;
+	
+}

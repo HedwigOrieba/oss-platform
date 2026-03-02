@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org" lang="en">
+	<head>
+		<meta charset="UTF-8">
+        <title>Iteration Handler Example</title>
+	</head>
+	<body>
+		<table border="1">
+			<thead>
+				<tr>
+					<th>SrNo</th>
+					<th>Index</th>
+					<th>Even</th>
+					<th>Odd</th>
+					<th>First</th>
+					<th>Last</th>
+					<th>Username</th>
+					<th>Password</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="user,iterStat: ${registeredUsers}">
+					<td th:text="${iterStat.count}"></td>
+					<td th:text="${iterStat.index}"></td>
+					<td th:text="${iterStat.even}"></td>
+					<td th:text="${iterStat.odd}"></td>
+					<td th:text="${iterStat.first}"></td>
+					<td th:text="${iterStat.last}"></td>
+					<td th:text="${user.username}"></td>
+					<td th:text="${user.password}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>

@@ -1,0 +1,104 @@
+package com.bazotech.store.domain;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.hibernate.validator.constraints.CreditCardNumber;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name="product_orders")
+public class Order implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="order_id")
+	private Long orderId;
+	
+	/* time stamp for when the order was placed */
+	@Column(name="placed_on", nullable=false, updatable=false)
+	private LocalDateTime placedOn;
+	
+	@PrePersist
+	protected void onCreate() {
+	    this.placedOn = LocalDateTime.now();
+	}
+
+	/* order status property */
+	@Enumerated(EnumType.STRING)
+	@Column(name="order_status", nullable=false)
+	private OrderStatus status;
+	
+	
+	/* Address Information: Relationship(*:1) productOrder:addresses */
+	@NotNull(message="Delivery Address is required") 
+	@ManyToOne
+	@JoinColumn(name="customer_address_id", referencedColumnName="customer_address_id", nullable=false)
+	private CustomerAddress deliveryAddress;
+	
+	
+	/* Payment Information: */
+	@NotNull(message="Billing information is required")
+	@OneToOne
+	@JoinColumn(name="billing_id", referencedColumnName="billing_id",nullable=false)
+	private BillingInfo billingInfo;
+	
+	
+	/* Order Products: Relationship (*:*) productOrder:Product */
+	@NotEmpty(message="Order must contain at least one product")
+	@ManyToMany
+	@JoinTable(name = "orders_to_products",joinColumns = @JoinColumn (name = "order_id"),inverseJoinColumns = @JoinColumn(name = "product_id"))
+	private List<Product> products = new ArrayList<>();
+	
+	
+	/* method to add product to the order */
+	public void addProduct(Product product) {
+		this.products.add(product);
+		product.getOrders().add(this);
+	}
+	
+	/* Embedded enum definition */ 
+	public enum OrderStatus { 
+		
+		PENDING("Pending"), 
+		PROCESSING("Processing"), 
+		SHIPPED("Shipped"), 
+		DELIVERED("Delivered"), 
+		CANCELLED("Cancelled");
+		
+		private final String label;
+		
+		OrderStatus(String label) {
+			this.label = label;
+		}
+		
+		public String getLabel() {
+			return label;
+		}
+	}
+	
+}

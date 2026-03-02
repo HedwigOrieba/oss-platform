@@ -1,0 +1,45 @@
+package com.bazotech.store.domain;
+
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Builder
+@Setter
+@Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded =true)
+@Entity
+@Table(name="store_bin")
+public class StoreBin {
+	
+	@Id 
+	@GeneratedValue(strategy=GenerationType.IDENTITY) 
+	@Column(name="bin_id")
+	@EqualsAndHashCode.Include
+	private Long binId;
+	
+	@JoinColumn(name="shelf_id")
+	private StoreShelf shelf;
+	
+	@Column(name="bin_label")
+	private String binLabel;
+	
+	@Column(name="bin")
+	private Integer bin;
+	
+}

@@ -1,0 +1,5 @@
+package com.bazotech.store.configs;
+
+public class WebConfig {
+
+}

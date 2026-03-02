@@ -1,0 +1,76 @@
+package com.bazotech.store.domain;
+
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Table(name="vendor_merchant_associations")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class VendorMerchantAssociation {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)	@NotNull
+	private Long id;
+	
+	@ManyToOne
+	@JoinColumn(name="vendor_id", nullable=false)
+	@NotNull
+	private Vendor vendor;
+	
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name="merchant_id", nullable=false)
+	private Merchant merchant;
+	
+	@Column(name="contract_date", nullable=false)
+	@NotNull
+	private LocalDate contractDate;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name="status")
+	@NotNull
+	private ActivityStatus status;
+	
+	@NotNull
+	@Column(name="relationship_description")
+	private String description;
+	
+	public enum ActivityStatus {
+		
+		ACTIVE("Active"),
+		INACTIVE("Inactive"),
+		PENDING("Pending"),
+		TERMINATED("Terminated");
+		
+		private final String statusTxt;
+		
+		/* enum constructor */
+		ActivityStatus(String statusTxt) {
+			this.statusTxt = statusTxt;
+		}
+		
+		/* get the status text */
+		public String getStatusTxt() {
+			return statusTxt;
+		}
+	}
+}

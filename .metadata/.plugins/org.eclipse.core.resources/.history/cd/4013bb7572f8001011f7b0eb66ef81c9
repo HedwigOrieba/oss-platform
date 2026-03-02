@@ -1,0 +1,142 @@
+package com.bazotech.store.controllers;
+
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
+import com.bazotech.store.domain.Users;
+
+import jakarta.servlet.http.HttpServletRequest;
+
+@Controller
+@SessionAttributes({"user_abc","appName"})
+public class HomeController {
+	
+	/* Returns a view of the base home page. */
+	/* http://localhost:8080/                */
+	
+	@GetMapping("/")
+	public String home() {
+		return "home";
+	}
+	
+	
+	/** ** Approach: Variable-Expression : uses ${} ** **/
+	
+	/* Returns a view template that handles the viewing of a single user. */
+	/* http://localhost:8080/user                                         */
+	
+	@GetMapping("/user")
+	public String users(Model model) {
+		Users user = new Users("bazotechabc", "bazotech123");
+		model.addAttribute("user_abc", user);
+		return "variable_expression";
+	}
+	
+	
+	/* Returns a view template that handles viewing of a list of users */
+	/* http://localhost:8080/users                                     */
+	/* The session attribute should be called back from the session scope into the request scope. */
+	@GetMapping("/users")
+	public String userList(@ModelAttribute("user_abc") Users user, Model model) {
+		
+		List<Users> users = List.of(
+			new Users("sarah", "sarah123"),
+			new Users("john", "john123"),
+			new Users("emma", "emma123")
+		);
+		
+		model.addAttribute("users", users);
+		return "variable_expression_iterable";
+	}
+	
+	
+	
+	/** ** Approach: Selection Expression : uses *{} ** **/
+	
+	@GetMapping("/selection_expression")
+	public String selectionExpression(Model model) {
+		Users user = new Users("hedwig", "1234");
+		model.addAttribute("selectionuser", user); // model-attr: selectionuser
+		return "selection_expression";
+	}
+	
+	
+	/** message expression is defined in the variable_expression.html template.: uses #{} **/
+	
+	
+	/** link expression : uses @{} **/
+	/* http://localhost:8080/link_expression */
+	@GetMapping("/link_expression/{id}")
+	public String linkExpression(@PathVariable int id, Model model) {
+		System.out.println("ID received: " + id);
+		model.addAttribute("id",1);
+		return "link_expression";
+	}
+	
+	
+	/** fragment expression: uses **/
+	/* http://localhost:8080/fragment_expression */
+	@GetMapping("/fragment_expression")
+	public String fragmentExpression() {
+		return "fragment_expression";
+	}
+	
+	
+	
+	/** iteration handler **/
+	/* http://localhost:8080/iteration_handler */
+	@GetMapping("/iteration_handler")
+	public String iterationHandler(Model model) {
+		List<Users> users = List.of(
+			new Users("Akol", "123"),
+			new Users("Peter", "abc"),
+			new Users("Johnah", "123"),
+			new Users("Patrick", "xty"));
+		model.addAttribute("registeredUsers", users);
+		return "iteration_handler";
+	}
+	
+	
+	/* conditional rendering: if unless*/
+	/* http://localhost:8080/conditional_rendering */
+	@GetMapping("/conditional_rendering")
+	public String conditionalRendering(Model model) {
+		List<Integer> ages = List.of(10,5,9,7, 25, 30, 45, 50);
+		model.addAttribute("ages", ages);
+		return "conditional_rendering";
+	}
+	
+	
+	
+	/* using a select case */
+	/* http://localhost:8080/condition_switch */
+	@GetMapping("/condition_switch")
+	public String switchCase(Model model) {
+		model.addAttribute("color", "Blue");
+		return "condition_switch";
+	}
+	
+	/* Because this endpoint is annoted with this attribute, its logic shall first be processed before any handler is hit. */
+	@ModelAttribute
+	public void embeddAppName(Model model) {
+		model.addAttribute("appName", "BazoTech Store");
+	}
+	
+	
+	/* My practice:*/
+	@GetMapping("/my_practice")
+	public String myPractice(Model model, HttpServletRequest req, HttpServletRequest res, @ModelAttribute("appName")String applicatonName) {
+		Users actress = new Users("Kate Winslet", "Titanic123");
+		model.addAttribute("actress", actress);
+		String modifiedAppName= applicatonName.toUpperCase();
+		model.addAttribute("applicationName", modifiedAppName);
+		return "practice";
+	}
+	
+}

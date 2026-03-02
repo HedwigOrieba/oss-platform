@@ -1,0 +1,63 @@
+package com.bazotech.store.domain;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor
+@NoArgsConstructor(access=AccessLevel.PRIVATE ,force=true)
+@Setter
+@Getter
+@Table(name="inventory_items")
+@Entity
+public class Inventory {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@NotNull
+	@Column(name="item_id")
+	private Long item_id;
+	
+	@Column(name="part_name")
+	private String name;
+	
+	@Enumerated(EnumType.STRING) 
+	@Column(name="part_category", nullable=false)
+	private Category category;
+	
+	@Column(name="part_description")
+	private String description;
+	
+	public enum Category{
+		TEXTILES,    	/* fabrics, clothing */
+		HEALTH,		 	/* medical supplies */
+		SECURITY,	 	/* safety equipment: locks, alarms, surveillance systems */
+		TECHNOLOGY,  	/* hardware, software, electronics */
+		FOOD,		 	/* groceries, beverages, snacks */
+		/*ENERGY,      	 fuel, electricity, renewable energy */
+		/* TRANSPORT,  	 vehicles, parts, accessories */
+		/* EDUCATION,   	 books, learning materials,course, training */
+		/* FINANCE,	 	 banking, investment, insurance, fintech */
+		/* AGRICULTURE, 	 farming, gardening, livestock, produce */
+		/* ENTERTAINMENT, 	 media, games, leisure */
+		OTHER			/* miscellaneous items */
+	}
+	
+	@ManyToMany(mappedBy="parts")
+	List<Product> products = new ArrayList<>();
+}

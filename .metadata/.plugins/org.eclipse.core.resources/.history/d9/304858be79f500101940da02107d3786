@@ -1,0 +1,25 @@
+package com.bazotech.store.domain;
+
+import java.util.Date;
+import java.util.List;
+
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Data;
+
+@Data
+public class Taco {
+	
+	/* unique identifier for the taco item. */
+	private Long id;
+	
+	/* date when the taco item was created. */
+	private Date createdAt = new Date();
+	
+	@NotNull
+	@Size(min=5,message="Name must be atleast five characters long.")
+	private String name;
+	
+	private List<Ingredient> ingredients;
+	
+}

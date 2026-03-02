@@ -1,0 +1,13 @@
+<!Doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en-US">
+	<head>
+		<meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Expression Fragment</title>
+     </head>
+     <body>
+         <div th:replace="~{common/header :: pageHeaderFragment}">This is header</div>
+         <div th:insert="~{common/body_graphics :: bodyFragment}">This the body</div>
+         <div th:replace="~{common/footer :: pageFooterFragment}">This is the footer section</div>
+     </body>
+</html>

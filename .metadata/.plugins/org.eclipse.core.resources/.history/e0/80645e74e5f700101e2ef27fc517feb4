@@ -1,0 +1,161 @@
+use store_db;
+
+/* Table product*/
+create table if not exists products(
+	product_id bigint not null auto_increment primary key,
+	item_id bigint not null,
+	published_on datetime default current_timestamp,
+	
+	foreign key (item_id) references inventory_items(item_id)
+);
+
+
+
+/* table inventory_items */
+create table inventory_items(
+	item_id bigint not null auto_increment primary key,
+	
+	merchant_id bigint not null,
+	vendor_id bigint not null,
+	category_id bigint not null,
+	
+	created_on datetime default current_timestamp,
+	
+	item_name varchar(300) not null,
+	item_uom varchar (255) not null,
+	item_quantity integer default 0 not null,
+	item_batch_number varchar(255) not null,
+	item_description text not null,
+	
+	
+	foreign key (merchant_id) references merchants(merchant_id),
+	foreign key (vendor_id) references vendors(vendor_id),
+	foreign key (category_id) references item_categories(category_id)
+);
+
+
+/* table merchants */
+create table merchants(
+	merchant_id bigint not null auto_increment primary key,
+	
+	address_id bigint not null,
+	
+	merchant_name varchar(255) not null,
+	merchant_email varchar(255) not null unique,
+	merchant_mobile varchar(60) not null,
+	
+	merchant_description text not null,
+	
+	foreign key (address_id) references addresses(address_id)
+);
+
+/* table vendors */
+create table vendors(
+	vendor_id bigint not null auto_increment primary key,
+	
+	address_id bigint not null,
+	
+	vendor_name varchar(255) not null unique,
+	vendor_description text not null,
+	
+	
+	
+);
+
+
+/* table item_categories */
+create table item_categories(
+	category_id bigint not null auto_increment primary key,
+	category_name varchar(255),
+	category_description text not null
+);
+
+
+/* Table stores */
+create table if not exists stores(
+	store_id bigint not null auto_increment primary key,
+	
+	item_id bigint not null,
+	tag_id bigint not null,
+	price_id bigint not null,
+	
+	store_name varchar(300) not null,
+	store_location varchar(300) not null,
+	store_description text not null ,
+	
+	items_in_stock integer default 0 not null,
+	item_reorder_level integer not null,
+	item_posting_on datetime default current_timestamp,
+	
+	
+	foreign key (item_id) references inventory_items(item_id),
+	foreign key (tag_id) references item_tags(tag_id),
+	foreign key (price_id) references item_pricing(price_id)
+);
+
+
+/* table product tags */
+create table if not exists item_tags(
+	tag_id bigint not null primary key,
+	tag_name varchar(300) not null unique
+);
+
+
+/* table item_pricing */
+create table item_pricing(
+	price_id bigint not null auto_increment primary key,
+	price_category varchar(255) not null,
+	category_amount decimal(10,2) default 0.0 not null
+);
+
+
+
+/* --- Product Orders Table --- */
+create table if not exists product_orders(
+	order_id bigint not null auto_increment primary key,
+    placed_on datetime default current_timestamp,
+    order_status varchar(100) not null,
+    
+    address_id bigint,
+    billing_id bigint,
+    
+    foreign key (address_id) references addresses(address_id),
+    foreign key (billing_id) references billing_info(billing_id)
+);
+
+
+/* Join table products-to-orders */
+create table product_to_orders(
+    product_id bigint not null,
+    order_id bigint not null,
+    primary key (product_id, order_id),
+    
+    foreign key (product_id) references products(product_id) on delete cascade,
+    foreign key (order_id) references product_orders(order_id) on delete cascade
+);
+
+
+/* Address table */
+create table addresses(
+	address_id bigint not null auto_increment primary key,
+    delivery_name varchar(255),
+    street varchar(255),
+    city varchar(255),
+    region varchar(255),
+    country varchar(255) default 'Uganda'
+    
+    foreign key (vendor_id) references addresses(vendor_id)
+);
+
+/* billing info table */
+create table billing_info (
+	billing_id bigint not null auto_increment primary key,
+	card_number varchar(255) not null,
+	card_expiration varchar(10) not null,
+	card_cvv varchar(10) not null 
+);
+
+create index idx_inventory_items_merchant on inventory_items(merchant_id);
+create index idx_inventory_items_vendor on inventory_items(vendor_id);
+create index idx_inventory_items_category on inventory_items(category_id);
+

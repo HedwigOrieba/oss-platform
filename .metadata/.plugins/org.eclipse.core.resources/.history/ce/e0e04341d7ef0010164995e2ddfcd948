@@ -1,0 +1,39 @@
+etPageSize(
+          defaultState
+            ? defaultPageSize
+            : table.initialState?.pagination?.pageSize ?? defaultPageSize
+        )
+      },
+      setPageSize: updater => {
+        table.setPagination(old => {
+          const pageSize = Math.max(1, functionalUpdate(updater, old.pageSize))
+          const topRowIndex = old.pageSize * old.pageIndex!
+          const pageIndex = Math.floor(topRowIndex / pageSize)
+
+          return {
+            ...old,
+            pageIndex,
+            pageSize,
+          }
+        })
+      },
+      setPageCount: updater =>
+        table.setPagination(old => {
+          let newPageCount = functionalUpdate(
+            updater,
+            table.options.pageCount ?? -1
+          )
+
+          if (typeof newPageCount === 'number') {
+            newPageCount = Math.max(-1, newPageCount)
+          }
+
+          return {
+            ...old,
+            pageCount: newPageCount,
+          }
+        }),
+
+      getPageOptions: memo(
+        () => [table.getPageCount()],
+        

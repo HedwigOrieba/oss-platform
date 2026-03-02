@@ -1,0 +1,7 @@
+package com.bazotech.store.jdbcrepositories;
+
+import com.bazotech.store.domain.TacoOrder;
+
+public interface OrderRepository {
+	TacoOrder save(TacoOrder order);
+}

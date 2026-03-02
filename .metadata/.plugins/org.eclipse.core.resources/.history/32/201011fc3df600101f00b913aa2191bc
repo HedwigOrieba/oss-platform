@@ -1,0 +1,95 @@
+package com.bazotech.store.domain;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.hibernate.validator.constraints.CreditCardNumber;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name="product_orders")
+public class ProductOrder implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="order_id")
+	private Long id;
+	
+	/* time stamp for when the order was placed */
+	@Column(name="placed_on")
+	private Date placedOn;
+	
+	@Column(name="order_status")
+	private String status;
+	
+	/* delivery information properties */
+	
+	@NotBlank(message="Delivery name is required")
+	@Column(name="delivery_name")
+	private String deliveryName;
+	
+	
+	
+	@NotBlank(message="Street is required")
+	@Column(name="delivery_street")
+	private String deliveryStreet;
+	
+	@NotBlank(message="City is required")
+	@Column(name="delivery_city")
+	private String deliveryCity;
+	
+	@NotBlank(message="State is required")
+	@Column(name="delivery_state")
+	private String deliveryState;
+	
+	@NotBlank(message="Zip code is required")
+	@Column(name="delivery_zip")
+	private String deliveryZip;
+	
+	
+	
+	/* payment information properties*/
+	@CreditCardNumber(message="Not a valid credit card number")
+	private String creditCardNumber;
+	
+	
+	@Pattern(regexp="^(0[1-9]|1[0-2])([\\/])([2-9][0-9])$",message="Must be formatted MM/YY")
+	private String creditCardExpiration;
+
+	
+	@Digits(integer=3, fraction=0, message="Invalid CVV")
+	private String creditCardCVV;
+	
+	
+	
+	/* ordered items list: This owns the foreign key, controls the relationship productOrder:Product */
+	@ManyToMany
+	@JoinTable(name = "ordered_products",joinColumns = @JoinColumn (name = "order_id"),inverseJoinColumns = @JoinColumn(name = "product_id"))
+	private List<Product> products = new ArrayList<>();
+	
+	
+	/* method to add product to the order */
+	public void addProduct(Product product) {
+		this.products.add(product);
+	}
+}

@@ -1,0 +1,47 @@
+package com.bazotech.store.domain;
+
+import org.hibernate.validator.constraints.CreditCardNumber;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Pattern;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter 
+@Setter 
+@ToString(exclude = {"order"}) // avoid recursion 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Entity
+@Table(name="billing_info")
+public class BillingInfo {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="billing_id")
+	@EqualsAndHashCode.Include
+	private Long billId;
+	
+	@CreditCardNumber(message="Not a valid credit card number") 
+	@Column(name="card_number")
+	private String creditCardNumber;
+	
+	@Pattern(regexp="^(0[1-9]|1[0-2])([\\/])([2-9][0-9])$",message="Must be formatted MM/YY")
+	@Column(name="card_expiration")
+	private String creditCardExpiration;
+	
+	@Digits(integer=3, fraction=0, message="Invalid CVV")
+	@Column(name="card_cvv")
+	private String creditCardCVV;
+	
+	@OneToOne(mappedBy="billingInfo")
+	private Order order;
+}

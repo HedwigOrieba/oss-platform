@@ -1,0 +1,5 @@
+package com.bazotech.store;
+
+public record configurations() {
+
+}

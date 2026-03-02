@@ -1,0 +1,31 @@
+package com.bazotech.store.domain;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.Data;
+
+@Table(name="merchants")
+@Entity
+@Data
+public class Merchant {
+	
+	@Column(name="merchant_id")
+	private Long merchantId;
+
+	@Column(name="address_id")
+	private Long addressId;
+
+	@Column(name="merchant_name")
+	private String merchant_name;
+
+	@Column(name="merchant_email")
+	private String merchantEmail;
+
+	@Column(name="merchant_mobile")
+	private String merchantMobile;
+
+	@Column(name="merchant_description")
+	private String merchantDescription;
+	
+}

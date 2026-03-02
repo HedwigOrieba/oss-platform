@@ -1,0 +1,244 @@
+package com.bazotech.store;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.bazotech.store.domain.BusinessAddress;
+import com.bazotech.store.domain.InventoryItem;
+import com.bazotech.store.domain.ItemBatch;
+import com.bazotech.store.domain.ItemCategory;
+import com.bazotech.store.domain.ItemPricing;
+import com.bazotech.store.domain.Merchant;
+import com.bazotech.store.domain.Product;
+import com.bazotech.store.domain.Store;
+import com.bazotech.store.domain.StoreItem;
+import com.bazotech.store.domain.StoreRack;
+import com.bazotech.store.domain.StoreRsbMapping;
+import com.bazotech.store.domain.Vendor;
+
+@SpringBootApplication
+public class StoreApplication {
+
+	public static void main(String[] args) {
+		//SpringApplication.run(StoreApplication.class, args);
+		//Colors color = Colors.RED;
+		//System.out.println("Selected color: " + color);
+		
+		 //Colors[] color =Colors.values();
+		 //for(Colors c: color) {
+		//	 System.out.println("Color: " + c);
+		 //}
+		
+		var programmingLangs = List.of("Java", "Python", "JavaScript", "C#", "Ruby");
+		programmingLangs.stream()
+		.filter(lang -> lang.startsWith("J"))
+		.forEach(lang -> System.out.println("Programming Language: " + lang));
+		
+		// using flat-map
+//		var mixedStream = Stream.of(List.of(1,2,3), List.of("a","b","c"));
+//		mixedStream
+//		.flatMap(list -> list.stream())
+//		.forEach(item -> System.out.print(item));
+		
+		
+		
+		/** creating a vendor**/
+		Vendor itemsVendor = Vendor.builder()
+							  	   .vendorName("Oracle Corporation")
+								   .vendorDescription("The strongest software company")
+								   .vendorEmail("service.info@bazotech.com")
+								   .vendorMobile("0778373399")
+								   .build();
+		
+		
+		List<BusinessAddress> vendorAddresses = List.of(
+				
+				BusinessAddress.builder()
+					.city("Washington")
+					.country("United States of America")
+					.street("Glass ware")
+					.build(),
+			
+				BusinessAddress.builder()
+					.city("Kampala")
+					.country("Uganda")
+					.street("Wilson Street")
+					.build(),
+			
+				BusinessAddress.builder()
+					.city("Lagos")
+					.country("Nigeria")
+					.street("Elegu Street")
+					.build()
+					
+				);
+						
+		itemsVendor.setBusinessAddresses(vendorAddresses);
+		
+		
+		/** creating a merchant **/
+		Merchant merchant = Merchant.builder()
+							  .merchantName("BazoTech")
+							  .merchantEmail("service.info@bazotech.com")
+							  .merchantMobile("78439060")
+							  .merchantDescription("A technology giant company in kampala")
+							  .build();
+
+		List<BusinessAddress> merchantAddresses = List.of(
+				BusinessAddress.builder()
+								.city("Kampala")
+								.country("Kampala")
+								.region("Central")
+								.street("Sia Amara")
+								.build(),
+								
+				BusinessAddress.builder()
+								.street("Johnson Street")
+								.city("Kampala")
+								.country("kampala")
+								.region("Central")
+								.build(),
+								
+				BusinessAddress.builder()
+								.street("Kitana Amir")
+								.city("Kampala")
+								.country("Uganda")
+								.region("Central")
+								.build()
+			); 
+		
+		merchant.setBusinessAddresses(merchantAddresses);
+		
+		
+		/** creating item categories **/
+		ItemCategory electronics = ItemCategory.builder()
+												.categoryName("Electronics")
+												.categoryDescription("Devices and Gadgets.")
+												.build();
+		
+		
+		
+		/** creating an inventory item **/
+		InventoryItem inventoryItem = InventoryItem.builder()
+												   .merchant(merchant)
+												   .vendor(itemsVendor)
+												   .category(electronics)
+												   .itemName("Laptop")
+												   .itemUom(InventoryItem.UomType.BOX)
+												   .itemQuantity(10)
+												   .itemDescription("A personal computer for field work")
+												   .build();
+		
+		/** creating products **/
+		Product product = Product.builder()
+								 .inventoryItem(inventoryItem)
+								 .build();
+	
+		/** creating a storeitem **/
+		StoreItem storeItem = StoreItem.builder()
+									   .store(null) 		// binding to a store
+									    .item(null)			// binding to an inventory Item
+									    .itemBatch(null)    // binding to item batches
+									    .price(null)		// binding to an item pricing
+									    .itemsInStock(10)
+									    .itemReorderLevel(10)
+									    .itemPostingOn(LocalDateTime.now())
+									    .rackShelfBin(null) // binding to a rack-shelf-bin
+									    .build();
+		
+		System.out.println("StoreItem: "+ storeItem.toString());
+		
+		
+		/** creating an item pricing **/
+		ItemPricing itemPrice = ItemPricing.builder()
+										   .priceCategory(ItemPricing.PriceCategory.GOLD)
+										   .categoryAmount(BigDecimal.valueOf(200000.00))
+										   .item(null) // Binding Point to Inventory Item
+										   .build();
+										   
+		System.out.println("Item Price: "+ itemPrice.toString());								   
+										   
+		
+		/** creating a store **/
+		Store store1 = Store.builder()
+							.createdOn(LocalDateTime.of(2025, 1, 12, 11, 23))
+							.storeName("Bazo Main Store")
+							.storeRacks(null) //
+							.storeItems(null) // Binding Point to store items
+							.storeLocation("Buto Bweyogerere")
+							.storeType(Store.StoreType.MAIN)
+							.storeDescription("This is the main technology store")
+							.build();
+		
+		System.out.println("Store: "+ store1.toString());
+		
+		
+		
+		/** Creating a store-rack **/
+		int rack_count = 2;
+		int shelf_count = 5;
+		int bin_count = rack_count * shelf_count;
+		
+	    StoreRack rack1 = StoreRack.builder()
+	    						   .store(null) // Binding Point to a store
+	    						   .rackCount(rack_count)
+	    						   .shelfCount(shelf_count)
+	    						   .binCount(bin_count)
+	    						   .allocationStatus("mapped")
+	    						   .storeRsbMappings(null) // Binding Point to RSBs
+	    						   .build();
+	    
+	    System.out.println("Rack: "+ rack1.toString());
+		
+	    
+	    
+	    /** creating a storeRsbmappings **/
+	    StoreRsbMapping rsb_map = null;
+	    
+	    for(int racks=0; racks<=rack_count; racks++) {
+	    	for(int shelfs=0; shelfs<=shelf_count; shelfs ++) {
+	    		for(int bins=0; bins<=bin_count; bins++) {
+	    			rsb_map = StoreRsbMapping.builder()
+	    									 .slotStatus("Open")
+	    									 .build();
+	    			System.out.println(rsb_map.toString());
+	    		}
+	    	}
+	    }
+	    
+	  
+	    
+	    
+		/** creating a batch **/
+		ItemBatch batch1 = ItemBatch.builder()
+				.batchNumber("Batch002")
+				.batchQuantity(50)
+				.manufacturedOn(LocalDateTime.of(2024, 1, 25, 10, 36))
+				.inventoryItem(null) // Binding Point to inventory Item
+				.expiresOn(LocalDateTime.of(2025, 1, 20, 10, 30))
+				.build();
+			
+		System.out.println("Batch: "+ batch1.toString());
+		
+		
+		
+	}// end main method.
+	
+	
+	
+	
+	
+	
+
+		//	public static enum Colors{
+		//		RED,
+		//		BLUE,
+		//		GREEN
+		//	}
+} // end class

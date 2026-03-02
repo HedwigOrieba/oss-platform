@@ -1,0 +1,12 @@
+package com.bazotech.store.repositories;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+import com.bazotech.store.domain.Vendor;
+
+public interface VendorRepository extends CrudRepository<Vendor, Long>{
+	
+	@Query("select v.vendorName from Vendor v where v.vendorName = :vendorName")
+	String fetchVendorByName(String vendorName);
+}

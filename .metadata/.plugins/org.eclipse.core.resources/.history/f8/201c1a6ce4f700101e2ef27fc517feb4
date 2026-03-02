@@ -1,0 +1,64 @@
+package com.bazotech.store.domain;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+//import jakarta.validation.constraints.Size;
+import lombok.Data;
+
+
+@Entity
+@Table(name="addresses")
+@Data
+public class Address {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="address_id")
+	private Long addressId;
+	
+	@NotBlank(message="Customer name is required")
+	@Column(name="delivery_name")
+	private String deliveryName;
+	
+	@NotBlank(message="Street is required")
+	@Column(name="street")
+	private String street;
+	
+	@NotBlank(message="City is required")
+	@Column(name="city")
+	private String city;
+	
+	@NotBlank(message="Region is required")
+	@Column(name="region")
+	private String region;
+	
+	@NotBlank(message="Country is required")
+	@Column(name="country", nullable=false)
+	private String country;
+	
+	//@Size(min = 1, message = "At least one order must be linked to this address")
+	@Valid
+	@OneToMany(mappedBy="deliveryAddress")
+	private List<Order> orders = new ArrayList<>();
+	
+	/* Helper method to add an order to the address list. */
+	public void addOrder(Order order) {
+		this.orders.add(order);
+	}
+	
+	/* Merchant Relationship, optional=false:The foreign key column must not be null meaning every address must have a merchant for this relationship.  */
+	@ManyToOne(optional=false)
+	@JoinColumn(name="merchant_id", nullable=false)
+	private Merchant merchant;
+}

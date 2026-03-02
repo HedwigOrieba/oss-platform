@@ -1,0 +1,46 @@
+use store_db;
+
+/* Table product*/
+create table if not exists products(
+	id bigint auto_increment primary key,
+	created_at datetime default current_timestamp,
+	product_name varchar(300) not null,
+	product_description text not null,
+	product_price decimal(10,2) not null,
+);
+
+/* Table product_parts */
+create table if not exists product_parts(
+	part_id bigint auto_increment primary key,
+	part_name varchar(300) not null,
+	part_category varchar(255) not null,
+	part_description text not null
+);
+
+/* Join table product-to-parts */
+create table product_parts(
+	product_id bigint not null,
+    part_id bigint not null,
+    primary key (product_id, part_id),
+    foreign key (product_id) references products(id),
+    foreign key (part_id) references product_parts(part_id)
+)
+
+
+/* --- Product Orders Table --- */
+create table if not exists product_orders(
+	order_id bigint auto_increment primary key,
+    placed_on datetime default current_timestamp,
+    order_status varchar(100) not null
+);
+
+/* Join table products-to-orders */
+create table product_orders(
+    product_id bigint not null,
+    order_id bigint not null,
+    primary key (product_id, order_id),
+    foreign key (product_id) references products(id),
+    foreign key (order_id) references product_orders(order_id)
+);
+
+

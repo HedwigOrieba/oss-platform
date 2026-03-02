@@ -1,0 +1,26 @@
+package com.bazotech.store.domain;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.Data;
+
+@Table(name="vendors")
+@Entity
+@Data
+public class Vendor {
+	
+	@Column(name="vendor_id")
+	private Long vendorId;
+	
+	@Column(name="address_id")
+	private Long addressId;
+	
+
+	@Column(name="vendor_name")
+	private String vendorName;
+	
+	@Column(name="vendor_description")
+	private String vendorDescription;
+	
+}

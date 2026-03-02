@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+  	<meta charset="utf-8"/>
+  	<meta name="keywords" content="Online shopping, Products"/>
+  	<meta name="Author" content="Hedwig Orieba"/>
+  	<meta name="viewport" content="width=device-width;initial-scale=1.0"/>
+  	<meta name="description" content="An online shopping platform"/>
+    <title>Taco-Cloud</title>
+  </head>
+  
+  <body>
+  	<!-- since there is no action attribute, the form shall be posted to the same url that served the form. -->
+    <form autocomplete="off" method="POST" th:object="${taco}">
+    
+    	<h3> Designate your wrap:</h3>
+    	<div th:each="ingredient: ${wrap}">
+    		<input type="checkbox" th:field="*{ingredients}" th:value="${ingredient.id}"/>
+    		<span th:text="${ingredient.name}">INGREDIENT</span> 
+    		<br/><br/>
+    	</div>
+    	
+    	<h3>Pick your protein:</h3>
+    	<div th:each="ingredient: ${protein}">
+    		<input type="checkbox" th:field="*{ingredients}" th:value="${ingredient.id}"/>
+    		<span th:text="${ingredient.name}">INGREDIENT</span>
+    		<br/><br/>
+    	</div>
+    	
+    	<h3>Choose your cheese:</h3>
+    	<div th:each="ingredient: ${cheese}">
+    		<input type="checkbox" th:field="*{ingredients}" th:value="${ingredient.id}"/>
+    		<span th:text="${ingredient.name}">INGREDIENT</span>
+    		<br/><br/>
+    	</div>
+    	
+    	<h3>Determine your veggies:</h3>
+    	<div th:each="ingredient: ${veggies}">
+    		<input type="checkbox" th:field="*{ingredients}" th:value="${ingredient.id}" />
+    		<span th:text="${ingredient.name}">INGREDIENT</span>
+    		<br/><br/>
+    	</div>
+    	
+    	<h3>Select your sauce:</h3>
+    	<div th:each="ingredient: ${sauce}">
+    		<input type="checkbox" th:field="*{ingredients}" th:value="${ingredient.id}"/>
+    		<span th:text="${ingredient.name}">INGREDIENT</span>
+    		<br/><br/>
+    	</div>
+    	
+    	<h3> Name your taco creation:</h3>
+    	<input type="text" th:field="*{name}"/>
+    	<br/><br/>
+    	
+    	<button type="submit">Submit Your Taco</button>
+    	
+    </form>
+  </body>
+  
+</html>

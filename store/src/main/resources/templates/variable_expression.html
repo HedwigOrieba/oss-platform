@@ -1,0 +1,17 @@
+<!Doctype html>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8"/>
+	<meta name="author" content="Hedwig Orieba"/>
+	<meta name="keyword" content="user-administration"/>
+</head>
+	<div>
+		<p> USER PROFILE </p>
+		<p th:text="#{welcome.message}"></p> <!-- i18n for the message-expressions -->
+		<div>
+			<p th:text="${user_abc.username}">User name</p>
+			<p th:text="${user_abc.password}">Password</p>
+		</div>
+	</div>
+	
+</html>

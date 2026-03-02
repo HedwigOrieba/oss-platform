@@ -1,0 +1,37 @@
+package com.bazotech.store.domain;
+
+import java.io.Serializable;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
+@Embeddable
+public class StoreRsbId implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	@Column(name="rack_id",insertable = false, updatable = false)
+	private Long rackID;
+	
+	@Column(name="rack")
+	private Integer rack;
+	
+	@Column(name="shelf")
+	private Integer shelf;
+	
+	@Column(name="bin")
+	private Integer bin;
+	
+}

@@ -1,0 +1,197 @@
+use store_db;
+
+/* Table product*/
+create table if not exists products(
+	product_id bigint not null auto_increment primary key,
+	item_id bigint not null,
+	published_on datetime,
+	
+	foreign key (item_id) references inventory_items(item_id)
+);
+
+
+
+/* table inventory_items */
+create table inventory_items(
+	item_id bigint not null auto_increment primary key,
+	
+	merchant_id bigint not null,
+	vendor_id bigint not null,
+	category_id bigint not null,
+	
+	created_on datetime,
+	
+	item_name varchar(300) not null,
+	item_uom varchar (255) not null,
+	item_quantity integer default 0 not null,
+	item_batch_number varchar(255) not null,
+	item_description text not null,
+	
+	
+	foreign key (merchant_id) references merchants(merchant_id),
+	foreign key (vendor_id) references vendors(vendor_id),
+	foreign key (category_id) references item_categories(category_id)
+);
+
+
+create index idx_inventory_items_merchant on inventory_items(merchant_id);
+create index idx_inventory_items_vendor on inventory_items(vendor_id);
+create index idx_inventory_items_category on inventory_items(category_id);
+
+
+/* table merchants */
+create table merchants(
+	merchant_id bigint not null auto_increment primary key,
+	
+	merchant_name varchar(255) not null,
+	merchant_email varchar(255) not null unique,
+	merchant_mobile varchar(60) not null,
+	
+	merchant_description text not null,
+	
+	
+);
+
+/* table vendors */
+create table vendors(
+	vendor_id bigint not null auto_increment primary key,
+	vendor_name varchar(255) not null unique,
+	vendor_description text not null,
+);
+
+
+/* table item_categories */
+create table item_categories(
+	category_id bigint not null auto_increment primary key,
+	category_name varchar(255),
+	category_description text not null
+);
+
+
+/* Table stores */
+
+create table stores(
+    store_id bigint not null auto_increment primary key,
+    store_name varchar(300) not null,
+    store_location varchar(300) not null,
+    store_description text not null,
+    store_type varchar(50) not null
+);
+
+
+create table store_items (
+	
+    store_id bigint not null,
+    item_id bigint not null,
+    price_id bigint not null,
+    items_in_stock integer default 0 not null,
+    item_reorder_level integer not null,
+    item_posting_on datetime default current_timestamp,
+    rack_shelf_bin varchar(50) not null,
+    
+    primary key (store_id, item_id),
+    foreign key (store_id) references stores(store_id),
+    foreign key (item_id) references inventory_items(item_id),
+    foreign key (price_id) references item_pricing(price_id)
+);
+
+
+/* table product tags */
+create table if not exists item_tags(
+	tag_id bigint not null primary key,
+	tag_name varchar(300) not null unique
+);
+
+create table item_tag_map (
+    item_id bigint not null,
+    tag_id bigint not null,
+    primary key (item_id, tag_id),
+    foreign key (item_id) references inventory_items(item_id),
+    foreign key (tag_id) references item_tags(tag_id)
+);
+
+
+
+/* table item_pricing */
+create table item_pricing (
+    price_id bigint not null auto_increment primary key,
+    item_id bigint not null,
+    price_category varchar(255) not null,
+    category_amount decimal(10,2) default 0.0 not null,
+    foreign key (item_id) references inventory_items(item_id)
+);
+
+
+
+
+/* --- Product Orders Table --- */
+create table if not exists product_orders(
+	order_id bigint not null auto_increment primary key,
+    placed_on datetime default current_timestamp,
+    order_status varchar(100) not null,
+    
+    customer_address_id bigint,
+    billing_id bigint,
+    
+    foreign key (customer_address_id) references customer_addresses(customer_address_id),
+    foreign key (billing_id) references billing_info(billing_id)
+);
+
+
+/* Join table products-to-orders */
+create table product_to_orders(
+    product_id bigint not null,
+    order_id bigint not null,
+    primary key (product_id, order_id),
+    
+    foreign key (product_id) references products(product_id) on delete cascade,
+    foreign key (order_id) references product_orders(order_id) on delete cascade
+);
+
+
+
+/* Business Addresses table */
+create table business_addresses (
+    business_address_id bigint not null auto_increment primary key,
+    street varchar(255) not null,
+    city varchar(255) not null,
+    region varchar(255) not null,
+    country varchar(255) default 'Uganda',
+
+    merchant_id bigint,
+    vendor_id bigint,
+    
+    check (
+			  (merchant_id is not null and vendor_id is null) or
+			  (vendor_id is not null and merchant_id is null)
+	),
+
+    foreign key (merchant_id) references merchants(merchant_id),
+    foreign key (vendor_id) references vendors(vendor_id)
+    
+);
+
+create index idx_business_addresses_merchant on business_addresses(merchant_id);
+create index idx_business_addresses_vendor on business_addresses(vendor_id);
+
+
+/* Customer Addresses table */
+create table customer_addresses (
+    customer_address_id bigint not null auto_increment primary key,
+    delivery_name varchar(255) not null,
+    street varchar(255) not null,
+    city varchar(255) not null,
+    region varchar(255) not null,
+    country varchar(255) default 'Uganda'
+);
+
+
+/* billing info table */
+create table billing_info (
+	billing_id bigint not null auto_increment primary key,
+	card_number varchar(255) not null,
+	card_expiration varchar(10) not null,
+	card_cvv varchar(10) not null 
+);
+
+

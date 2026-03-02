@@ -1,0 +1,21 @@
+<!Doctype html>
+<html xmlns="http://www.thymeleaf.org" lang="en">
+	<head>
+		<meta charset="UTF-8">
+        <title>Conditional Rendering</title>
+	</head>
+	<body>
+	
+        <!-- 
+             # Check if each of the age values is greater-than 10.
+             # String combination happens using + operator.
+             # String literals are enclosed within single-quotes.
+        -->
+        
+		<div th:each="age: ${ages}">
+			<font th:if="${age > 10}"     th:text="'ages above 10yrs ' + ${age}"></font>
+			<font th:unless="${age > 10}" th:text="'ages below 10yrs ' + ${age}"></font>
+		</div>
+		
+	</body>
+</html>

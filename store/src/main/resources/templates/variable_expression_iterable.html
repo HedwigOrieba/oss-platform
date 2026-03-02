@@ -1,0 +1,19 @@
+<!Doctype html>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="author" content="Hedwig Orieba"/>
+	</head>
+	<body>
+		<div>
+			<h3> USERS LIST</h3>
+			<p th:text="${user_abc.username}"></p>
+			<div th:each="user: ${users}">
+				<strong>User name:</strong> <span th:text="${user.username}"></span>
+				<strong>Password:</strong> <span th:text="${user.password}"></span>
+				<br/>
+				<br/>
+			</div>
+		</div>
+	</body>
+</html>

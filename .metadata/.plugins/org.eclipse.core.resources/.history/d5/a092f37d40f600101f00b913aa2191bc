@@ -1,0 +1,32 @@
+package com.bazotech.store.domain;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Data;
+
+
+@Entity
+@Table(name="addresses")
+@Data
+public class Address {
+	@Id
+	@Column(name="address_id")
+	private Long id;
+	
+	@Column(name="delivery_name")
+	private String customerNames;
+	
+	@Column(name="street")
+	private String street;
+	
+	@Column(name="city")
+	private String city;
+	
+	@Column(name="region")
+	private String region;
+	
+	@Column(name="country")
+	private String country;
+}

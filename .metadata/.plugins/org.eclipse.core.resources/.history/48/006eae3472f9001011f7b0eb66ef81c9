@@ -1,0 +1,51 @@
+package com.bazotech.store;
+
+import java.util.List;
+import java.util.stream.Stream;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.bazotech.store.domain.Vendor;
+
+//@SpringBootApplication
+public class StoreApplication {
+
+	public static void main(String[] args) {
+		//SpringApplication.run(StoreApplication.class, args);
+		//Colors color = Colors.RED;
+		//System.out.println("Selected color: " + color);
+		
+		 //Colors[] color =Colors.values();
+		 //for(Colors c: color) {
+		//	 System.out.println("Color: " + c);
+		 //}
+		
+		var programmingLangs = List.of("Java", "Python", "JavaScript", "C#", "Ruby");
+		programmingLangs.stream()
+		.filter(lang -> lang.startsWith("J"))
+		.forEach(lang -> System.out.println("Programming Language: " + lang));
+		
+		// using flat-map
+//		var mixedStream = Stream.of(List.of(1,2,3), List.of("a","b","c"));
+//		mixedStream
+//		.flatMap(list -> list.stream())
+//		.forEach(item -> System.out.print(item));
+	
+	
+		
+		/* Testing the vendor class */
+		var vendor1 = new Vendor();
+		
+		
+		
+		
+		
+	}// end main method.
+
+		//	public static enum Colors{
+		//		RED,
+		//		BLUE,
+		//		GREEN
+		//	}
+} // end class

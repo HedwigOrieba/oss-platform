@@ -1,0 +1,33 @@
+package com.bazotech.store.services;
+
+import org.springframework.stereotype.Service;
+
+import com.bazotech.store.repositories.VendorRepository;
+
+import jakarta.persistence.EntityManager;
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+@Service
+public class VendorService {
+	
+	private final VendorRepository vendorRepository;
+	private final EntityManager persistenceContext;
+	
+	
+	/* Business Service to register a vendor */
+	public void registerVendor() {
+		
+	}
+	
+	
+	/* Retrieve a vendore by id */
+	
+	
+	/* Retrieve a vendor by name */
+	
+	
+	/* Retrieve a vendor by */
+	
+	
+}

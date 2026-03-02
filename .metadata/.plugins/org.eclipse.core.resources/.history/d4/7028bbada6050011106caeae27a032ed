@@ -1,0 +1,17 @@
+package com.bazotech.store.services;
+
+import org.springframework.stereotype.Service;
+
+import com.bazotech.store.repositories.MerchantRepository;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+@Service
+public class MerchantService {
+	
+	private final MerchantRepository merchantRepository;
+	
+	// find a merchant by id
+	
+}

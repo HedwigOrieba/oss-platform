@@ -1,0 +1,34 @@
+package com.bazotech.store.services;
+
+import org.springframework.stereotype.Service;
+
+import com.bazotech.store.domain.StoreRack;
+import com.bazotech.store.repositories.StoreRackRepository;
+import com.bazotech.store.repositories.StoreRepository;
+
+import lombok.AllArgsConstructor;
+
+
+@Service
+@AllArgsConstructor
+public class StoreRackService {
+	
+	private final StoreRackRepository storeRackRepository;
+	private final StoreRepository storeRepository;
+	
+	
+	// create a store rack 
+	public void createStoreRack() {
+		
+		var store = storeRepository.findById(1L).orElseThrow();
+		
+		var rack = StoreRack.builder()
+							.rackLabel("Rack1")
+							.store(store)
+							.build();
+		
+		storeRackRepository.save(rack);
+	}
+	
+	
+}

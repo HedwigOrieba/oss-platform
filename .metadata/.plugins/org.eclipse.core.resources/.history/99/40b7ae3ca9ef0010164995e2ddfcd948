@@ -1,0 +1,14 @@
+<!Doctype html>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="keywords" content="Java, Javascript, Java Server Faces,Java Server Pages"/>
+		<meta name="author" content="Hedwig Orieba"/>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+		<meta name="description" content="A project to revamp understanding of the thymeleaf templating engine"/>
+		<title>Thymeleaf Practice Page</title>
+	</head>
+	<body>
+		<h1> Welcome to the Java Templating environment</h1>
+	</body>
+</html>

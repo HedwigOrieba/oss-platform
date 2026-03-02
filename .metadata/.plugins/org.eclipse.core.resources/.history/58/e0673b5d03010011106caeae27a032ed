@@ -1,0 +1,151 @@
+package com.bazotech.store.services;
+
+import java.util.List;
+
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import com.bazotech.store.domain.BusinessAddress;
+import com.bazotech.store.domain.Vendor;
+import com.bazotech.store.repositories.VendorRepository;
+
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+@Service
+public class VendorService {
+	
+	private static final Logger logger = LoggerFactory.getLogger(VendorService.class);
+	private final VendorRepository vendorRepository;
+	//private final EntityManager entityManager;
+	
+	/* Business Service to register a vendor */
+	public void registerVendor() {
+		
+		/** Base Vendor Information **/
+		var microsoft = Vendor.builder()
+									.vendorName("Microsoft Corporation")
+									.vendorDescription("A Tier-1 software company.")
+									.vendorMobile("0778434343")
+									.vendorEmail("info@microsoft.com") /* Mandatory field */
+									.build();
+		
+		/** Address information **/
+		var address1 = BusinessAddress.builder()
+									.country("Uganda")
+									.city("Kampala")
+									.street("Kampala") //optional
+									.region("Central Uganda")
+									.merchant(null)
+									.vendor(microsoft)
+									.build();
+		
+		var address2 = BusinessAddress.builder()
+									 .country("Uganda")
+									 .city("Kampala")
+									 .street("William")
+									 .region("Central Region")
+									 .merchant(null)
+									 .vendor(microsoft)
+									 .build();
+		
+		/** Binding the addresses to the vendor instance **/
+		//microsoft.setBusinessAddresses(List.of(address1,address2));
+		
+		/** First address **/
+		 microsoft.addBusinessAddress(address1);
+		
+		/** second address **/
+		 microsoft.addBusinessAddress(address2);
+		
+		/** saving the vendor instance to the database **/
+		var persistedVendor = vendorRepository.save(microsoft);
+		
+		System.out.println();
+		
+		System.out.println("Persisted: "+ persistedVendor.toString());
+		System.out.println("Vendor Record Successfully Saved to Database!!!");
+		
+		System.out.println();
+		
+	}
+	
+	
+	/* Get vendor from db given the vendor ID */
+	@Transactional
+	public Vendor getVendorById(Long vendorId) {
+		var vendorByProvidedId = vendorRepository.findById(vendorId).orElseThrow();
+		logger.info("FetchVendorById:logger:" + vendorByProvidedId.toString());
+		System.out.println("Found Vendor: " + vendorByProvidedId.toString());
+		
+		return vendorByProvidedId;
+		
+	}
+	
+	
+	/* Get vendor from db given the vendor name */
+	@Transactional
+	public void getVendorByName() {
+		var vendorByProvidedName = vendorRepository.fetchVendorByName("Microsoft Corporation").orElseThrow();
+		logger.info("FetchVendorByName:logger: " + vendorByProvidedName.toString());
+		System.out.println("Found Vendor: " + vendorByProvidedName.toString());
+	}
+	
+	
+	/* Get vendor from db given the vendor email */
+	@Transactional
+	public void getVendorByEmail() {
+		var vendorByProvidedEmail = vendorRepository.fetchVendorByEmail("info@microsoft.com").orElseThrow();
+		logger.info("FetchVendorByEmail:logger: "  + vendorByProvidedEmail.toString());
+		System.out.println("Found Vendor: " + vendorByProvidedEmail.toString());
+	}
+	
+	
+	/* Get all registered vendors from the db */
+	@Transactional
+	public void getAllRegisteredVendors() {
+		List<Vendor> registeredVendors =  (List<Vendor>) vendorRepository.findAll();
+		registeredVendors.stream()
+						 .forEach(vendor -> System.out.println("Vendor: " + vendor.toString()));	
+	}
+	
+	
+	/* Get all vendor addresses */
+	@Transactional
+	public void getAllVendorAddresses(Long vendorID) {
+		var vendor = this.getVendorById(vendorID);
+		var addresses = vendor.getBusinessAddresses();
+		addresses.stream()
+				 .forEach(address -> System.out.println("Vendor Address: " + address.toString()));
+	}
+	
+	
+	/* Updating vendor-only basic information */
+	@Transactional
+	public void updateVendorInfo(Long vendorID) {
+		var vendorForUpdate = this.getVendorById(vendorID);
+		
+		vendorForUpdate.setVendorName("Microsoft Corp Ltd");
+		vendorForUpdate.setVendorEmail("tech.info@microsoft.com");
+		vendorForUpdate.setVendorDescription("A Tier-1 software and hardware company.");
+		vendorForUpdate.setVendorMobile("0700 999999");
+		
+		vendorRepository.save(vendorForUpdate);
+		logger.info("UpdatedVendorInfo:logger: " + vendorForUpdate.toString());
+	}
+	
+	
+	
+	public void updateVendorAddress(Long vendorID) {
+		var vendorForAddressUpdate = this.getVendorById(vendorID);
+		var vendorAddressList = vendorForAddressUpdate.getBusinessAddresses();
+		
+		vendorAddressList.stream().forEach(address ->{
+			
+		});
+	}
+}

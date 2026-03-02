@@ -1,0 +1,38 @@
+package com.bazotech.store.services;
+
+import org.springframework.stereotype.Service;
+
+import com.bazotech.store.domain.Vendor;
+import com.bazotech.store.repositories.VendorRepository;
+
+import jakarta.persistence.EntityManager;
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+@Service
+public class VendorService {
+	
+	private final VendorRepository vendorRepository;
+	private final EntityManager persistenceContext;
+	
+	
+	/* Business Service to register a vendor */
+	public void registerVendor() {
+		var vendorInfo = Vendor.builder()
+				.vendorName("Microsoft Corporation")
+				.vendorDescription("A Tier-1 software company.")
+				.vendorMobile("0778434343")
+				.vendorEmail("info@microsoft.com") // Mandatory field
+	}
+	
+	
+	/* Retrieve a vendore by id */
+	
+	
+	/* Retrieve a vendor by name */
+	
+	
+	/* Retrieve a vendor by */
+	
+	
+}

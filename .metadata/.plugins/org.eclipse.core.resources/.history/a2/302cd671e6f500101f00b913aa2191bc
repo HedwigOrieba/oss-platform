@@ -1,0 +1,8 @@
+package com.bazotech.store.domain;
+
+import lombok.Data;
+
+@Data
+public class Ingredientref {
+	private final String ingredient;
+}

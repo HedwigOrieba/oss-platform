@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+  	<meta charset="utf-8"/>
+  	<meta name="keywords" content="Online shopping, Products"/>
+  	<meta name="Author" content="Hedwig Orieba"/>
+  	<meta name="viewport" content="width=device-width;initial-scale=1.0"/>
+  	<meta name="description" content="An online shopping platform"/>
+    <title>Taco-Cloud</title>
+  </head>
+  
+  <body>
+    <form method="POST" th:object="${taco}">
+    
+    </form>
+  </body>
+  
+</html>

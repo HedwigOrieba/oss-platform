@@ -1,0 +1,12 @@
+<!Doctype html>
+<html lang="en-US" xmlns:th="http://www.thymeleaf.com">
+	<head>
+		<title> Product Form </title>
+		<meta charset="utf-8"/>
+		<meta name="author" content="Hedwig Orieba"/>
+	</head>
+	<body>
+		
+	</body>
+
+</html>

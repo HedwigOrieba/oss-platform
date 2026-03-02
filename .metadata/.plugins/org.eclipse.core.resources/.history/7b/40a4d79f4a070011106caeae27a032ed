@@ -1,0 +1,42 @@
+package com.bazotech.store.services;
+
+import java.time.LocalDate;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import com.bazotech.store.domain.Vendor;
+import com.bazotech.store.domain.VendorMerchantAssociation;
+import com.bazotech.store.repositories.MerchantRepository;
+import com.bazotech.store.repositories.VendorRepository;
+
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+@Service
+public class VendorMerchantService {
+	
+	private static final Logger logger = LoggerFactory.getLogger(VendorMerchantService.class);
+	private final VendorRepository vendorRepository;
+	private final MerchantRepository merchantRepository;
+	
+	public void linkVendorToMerchant(Long vendorId, Long merchantId) {
+		Vendor vendor = vendorRepository.findById(vendorId).orElseThrow(() -> new RuntimeException("Vendor not found with id: " + vendorId));
+		var merchant = merchantRepository.findById(merchantId).orElseThrow(() -> new RuntimeException("Merchant not found with id: " + merchantId));
+		
+		VendorMerchantAssociation association = VendorMerchantAssociation.builder()
+				.vendor(vendor)
+				.merchant(merchant)
+				.contractDate(LocalDate.now())
+				.description("Contract between " + vendor.getVendorName() + " and " + merchant.getMerchantName())
+				.build();
+		
+		vendor.addAssociation(association);
+		merchant.addAssociation(association);
+		
+		vendorRepository.save(vendor);
+		
+		logger.info("Linked Vendor '{}' to Merchant '{}'", vendor.getVendorName(), merchant.getMerchantName());
+	}
+}

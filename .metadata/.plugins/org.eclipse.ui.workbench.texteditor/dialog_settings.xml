@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item key="hasShownOverlayPopupBefore" value="true"/>
+	<section name="java.lang.Class">
+		<item key="selection" value="private jdbcOperations jdbcOperations;"/>
+		<item key="replaceBarOpen" value="true"/>
+		<list key="findhistory">
+			<item value="taco"/>
+			<item value="tacoOrder"/>
+			<item value="productPartsMap"/>
+			<item value="private jdbcOperations jdbcOperations;"/>
+			<item value="public void setColorStrength(String _strength) {"/>
+			<item value="try {"/>
+			<item value="&lt;!Doctype html&gt;"/>
+			<item value="&lt;dependency&gt;"/>
+		</list>
+		<list key="replacehistory">
+			<item value="product"/>
+			<item value="productOrder"/>
+		</list>
+	</section>
+</section>

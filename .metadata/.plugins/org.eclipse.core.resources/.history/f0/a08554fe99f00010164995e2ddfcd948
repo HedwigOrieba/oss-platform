@@ -1,0 +1,28 @@
+package com.bazotech.store.domain;
+
+public enum Colors { // start enumeration
+	
+	/* enumeration values */
+	RED("light"),
+	GREEN("violet"),
+	BLUE("cyan");
+	
+	/* private enumeration field */
+	private String strength;
+	
+	/* setting the strength */
+	public void setColorStrength(String _strength) {
+		this.strength = _strength;
+	}
+	
+	/* Getting the strength */
+	public String getColorStrength() {
+		return this.strength;
+	}
+	
+	/* enumeration constructor */
+	Colors(String strength){
+		setColorStrength(strength);
+	}
+	
+} // end enumeration

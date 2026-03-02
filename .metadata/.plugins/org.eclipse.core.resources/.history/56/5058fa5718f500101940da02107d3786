@@ -1,0 +1,4 @@
+spring.application.name=store
+spring.datasource.generate-unique-name=false
+spring.datasource.name=tacocloud
+

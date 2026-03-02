@@ -1,0 +1,24 @@
+package com.bazotech.store.domain;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
+@Table(name="item_tags")
+@Data
+@Entity
+public class ItemTag {
+	
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@NotNull
+	@Id
+	@Column(name="tag_id")
+	private Long tagId;
+	
+	private String tagName;
+}

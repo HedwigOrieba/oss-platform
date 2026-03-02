@@ -1,0 +1,41 @@
+package com.bazotech.store.domain;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor
+@NoArgsConstructor(access=AccessLevel.PRIVATE ,force=true)
+@Setter
+@Getter
+@Entity
+public class Part {
+	
+	@Id
+	private final String id;
+	
+	private final String name;
+	
+	private final Category category;
+	
+	public enum Category{
+		TEXTILES,    	/* fabrics, clothing */
+		HEALTH,		 	/* medical supplies */
+		SECURITY,	 	/* safety equipment: locks, alarms, surveillance systems */
+		TECHNOLOGY,  	/* hardware, software, electronics */
+		FOOD,		 	/* groceries, beverages, snacks */
+		/*ENERGY,      	 fuel, electricity, renewable energy */
+		/* TRANSPORT,  	 vehicles, parts, accessories */
+		/* EDUCATION,   	 books, learning materials,course, training */
+		/* FINANCE,	 	 banking, investment, insurance, fintech */
+		/* AGRICULTURE, 	 farming, gardening, livestock, produce */
+		/* ENTERTAINMENT, 	 media, games, leisure */
+		OTHER			/* miscellaneous items */
+	}
+	
+}

@@ -1,0 +1,22 @@
+get.dispatchEvent (node:internal/event_target:766:26)
+    at abortSignal (node:internal/abort_controller:370:10)
+    at AbortController.abort (node:internal/abort_controller:392:5)
+    at C:\snapshot\copilot-client\lib\src\networking.ts:105:19
+    at W0e.invoke (C:\snapshot\copilot-client\node_modules\vscode-jsonrpc\lib\common\events.js:55:39)
+    at t.fire (C:\snapshot\copilot-client\node_modules\vscode-jsonrpc\lib\common\events.js:117:36)
+    at Jj.cancel (C:\snapshot\copilot-client\node_modules\vscode-jsonrpc\lib\common\cancellation.js:41:31)
+    at G0e.cancel (C:\snapshot\copilot-client\node_modules\vscode-jsonrpc\lib\common\cancellation.js:82:25) {
+  type: 'aborted',
+  _name: 'AbortError'
+}
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-01-20 13:17:10.130
+!MESSAGE [Info]	[fetchCompletions] Request abe186b0-6e78-4cfc-b4fc-f48a7cf9da4b at <https://proxy.individual.githubcopilot.com/v1/engines/gpt-41-copilot/completions> finished with 200 status after 293.0038000000641ms
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-01-20 13:17:10.273
+!MESSAGE [Info]	[streamChoices] solution 0 returned. finish reason: [stop]
+
+!ENTRY org.eclipse.lsp4e 1 0 2026-01-20 13:17:10.681
+!MESSAGE [Info]	[fetchCompletions] Request c42cc680-0b51-48f4-b4f1-4e6dfec09432 at <https://proxy.individual.githubcopilot.com/v1/engines/gpt-41-copilot/completions> finished with 200 status after 398.2564999999013ms
+
+!ENTRY org.eclipse.lsp4

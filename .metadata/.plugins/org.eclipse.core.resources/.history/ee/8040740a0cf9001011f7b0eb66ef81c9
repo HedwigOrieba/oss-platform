@@ -1,0 +1,14 @@
+package com.bazotech.store.domain;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
+@Table(name="store_rsb_mapping")
+@Entity
+public class StoreRSB {
+
+}

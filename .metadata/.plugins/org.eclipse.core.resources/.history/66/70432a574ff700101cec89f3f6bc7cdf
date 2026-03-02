@@ -1,0 +1,179 @@
+package com.bazotech.store.controllers; 
+
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import com.bazotech.store.domain.Part;
+import com.bazotech.store.domain.Part.Category;
+import com.bazotech.store.domain.Product;
+import com.bazotech.store.domain.ProductOrder;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Slf4j
+@Controller
+@RequestMapping("/design")
+@SessionAttributes("productOrder") // keep the value associated with the key productOrder existing across different sessions.
+public class DesignProductController {
+	
+	//private final IngredientRepository ingredientRepo;
+	
+	//@Autowired
+	// DesignproductController(IngredientRepository ingredientRepo) {
+	//	this.ingredientRepo = ingredientRepo;
+	//}
+	
+	
+	/* Spring processes this method before calling any request handler methods. */
+	@ModelAttribute
+	public void addIngredientsToModel(Model model) { /** Start Method Definition **/
+		
+		/* creating a list of ingredients */
+		
+		List<Part> parts = Arrays.asList(
+				null,null
+				/* Technology Parts */
+				/*
+				 * new Part("PC", "Personal Computer", Part.Category.TECHNOLOGY), new
+				 * Part("LAP", "Laptop", Part.Category.TECHNOLOGY), new Part("MON", "Monitor",
+				 * Part.Category.TECHNOLOGY), new Part("KEY", "Keyboard",
+				 * Part.Category.TECHNOLOGY), new Part("MOU", "Mouse",
+				 * Part.Category.TECHNOLOGY), new Part("HDD", "Hard Drive",
+				 * Part.Category.TECHNOLOGY), new Part("RAM", "Memory Module",
+				 * Part.Category.TECHNOLOGY), new Part("PSU", "Power Supply Unit",
+				 * Part.Category.TECHNOLOGY), new Part("GPU", "Graphics Card",
+				 * Part.Category.TECHNOLOGY),
+				 */
+				
+				
+				/* Textile Parts */
+				/*
+				 * new Part("FOOTWARE", "Boots", Part.Category.TEXTILES), new Part("JACKET",
+				 * "Winter Jacket", Part.Category.TEXTILES), new Part("GLOVES",
+				 * "Leather Gloves", Part.Category.TEXTILES), new Part("HAT", "Beanie Hat",
+				 * Part.Category.TEXTILES), new Part("SCARF", "Wool Scarf",
+				 * Part.Category.TEXTILES),
+				 */
+				
+				/* Health Parts */
+				/*
+				 * new Part("VITAMINS", "Multivitamins", Part.Category.HEALTH), new
+				 * Part("FIRSTAID", "First Aid Kit", Part.Category.HEALTH), new Part("MASKS",
+				 * "Surgical Masks", Part.Category.HEALTH), new Part("SANITIZER",
+				 * "Hand Sanitizer", Part.Category.HEALTH),
+				 */
+				
+				/* Security Parts */
+				/*
+				 * new Part("LOCK", "Padlock", Part.Category.SECURITY), new Part("ALARM",
+				 * "Security Alarm", Part.Category.SECURITY), new Part("CAMERA",
+				 * "Surveillance Camera", Part.Category.SECURITY), new Part("FIREEXT",
+				 * "Fire Extinguisher", Part.Category.SECURITY),
+				 */
+				
+				
+				/* Food Parts */
+				/*
+				 * new Part("SNACKS", "Assorted Snacks", Part.Category.FOOD), new
+				 * Part("BEVERAGES", "Beverage Pack", Part.Category.FOOD), new Part("GROCERIES",
+				 * "Grocery Bag", Part.Category.FOOD), new Part("FROZEN", "Frozen Foods",
+				 * Part.Category.FOOD),
+				 */
+				
+				
+				/* Other Parts */
+				/*new Part("MISC1", "Miscellaneous Item 1", Part.Category.OTHER),
+				new Part("MISC2", "Miscellaneous Item 2", Part.Category.OTHER)	
+				*/
+				
+		);
+		
+		
+		//Iterable<Ingredient> ingredients = ingredientRepo.findAll();
+		
+		/* create an array of types.*/
+		Category[] categories = Part.Category.values();
+		
+		
+		/* Add to the model a filtered list of ingredients for each type.*/
+		for(Category category:categories) {
+			model.addAttribute(category.toString().toLowerCase(),filterByType((List<Part>) parts, category));
+		}
+		
+		
+	} /** End Method addPartsToModel **/
+	
+	
+	
+	
+	/* Helper method to filter ingredients by type. */
+	private Iterable<Part> filterByType(List<Part> parts, Category category) {
+		return parts
+				.stream()
+				.filter(part -> part.getCategory().equals(category))
+				.collect(Collectors.toList());
+	}
+		
+	
+	/* Add the productOrder object to the model if it does not already exist in the model.*/
+	@ModelAttribute(name="productOrder")
+	public ProductOrder productOrder() {
+		return new ProductOrder();
+	}
+	
+	
+	
+	/* Add the product object to the model if it does not already exist in the model.*/
+	@ModelAttribute(name="product")
+	public Product product() {
+		return new Product();
+	}
+	
+	
+	
+	/* Method to handle GET requests for /design */
+	@GetMapping
+	public String showDesignForm() {
+		return "design";
+	}
+	
+	
+	/* Processing the submitted form */
+	@PostMapping
+	public String processproduct(@Valid Product product, Errors errors, @ModelAttribute ProductOrder productOrder,HttpServletRequest req, HttpServletResponse res) {
+		
+		/* if any errors are identified, stop processing and re-display the design form.*/
+		if(errors.hasErrors()) {
+			return "design";
+		}
+		
+	
+		//log.info("Received product: {}", product);
+		
+		productOrder.addProduct(product);
+		// Logic to persist product creations to the database comes here.
+		
+		log.info("Processing product: {}", product);
+		//return "redirect:/";
+		return "redirect:/orders/current";
+		
+	}
+
+	
+	
+	
+} // end class

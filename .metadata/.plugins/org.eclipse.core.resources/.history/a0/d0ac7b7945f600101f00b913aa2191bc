@@ -1,0 +1,68 @@
+use store_db;
+
+/* Table product*/
+create table if not exists products(
+	id bigint auto_increment primary key,
+	created_at datetime default current_timestamp,
+	product_name varchar(300) not null,
+	product_description text not null,
+	product_price decimal(10,2) not null,
+);
+
+/* Table product_parts */
+create table if not exists product_parts(
+	part_id bigint auto_increment primary key,
+	part_name varchar(300) not null,
+	part_category varchar(255) not null,
+	part_description text not null
+);
+
+/* Join table product-to-parts */
+create table product_to_parts(
+	product_id bigint not null,
+    part_id bigint not null,
+    primary key (product_id, part_id),
+    foreign key (product_id) references products(id),
+    foreign key (part_id) references product_parts(part_id)
+)
+
+
+/* --- Product Orders Table --- */
+create table if not exists product_orders(
+	order_id bigint auto_increment primary key,
+    placed_on datetime default current_timestamp,
+    order_status varchar(100) not null,
+    address_id bigint,
+    billing_id bigint,
+    foreign key (address_id) references addresses(address_id),
+    foreign key (billing_id) references billing_info(billing_id)
+);
+
+
+/* Join table products-to-orders */
+create table product_to_orders(
+    product_id bigint not null,
+    order_id bigint not null,
+    primary key (product_id, order_id),
+    foreign key (product_id) references products(id),
+    foreign key (order_id) references product_orders(order_id)
+);
+
+
+/* Address table */
+create table addresses(
+	address_id bigint auto_increment primary key,
+    delivery_name varchar(255),
+    street varchar(255),
+    city varchar(255),
+    region varchar(255),
+    country varchar(255)
+);
+
+/* billing info table */
+create table billing_info (
+	billing_id bigint auto_increment primary key,
+	card_number varchar(255) not null,
+	card_expiration varchar(10) not null,
+	card_cvv varchar(10) not null 
+);

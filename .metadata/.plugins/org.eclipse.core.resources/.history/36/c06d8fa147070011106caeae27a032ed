@@ -1,0 +1,139 @@
+package com.bazotech.store;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+import java.util.List;
+
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.bazotech.store.domain.BusinessAddress;
+import com.bazotech.store.domain.InventoryItem;
+import com.bazotech.store.domain.ItemBatch;
+import com.bazotech.store.domain.ItemCategory;
+import com.bazotech.store.domain.ItemPricing;
+import com.bazotech.store.domain.ItemTag;
+import com.bazotech.store.domain.Merchant;
+import com.bazotech.store.domain.Product;
+import com.bazotech.store.domain.Store;
+import com.bazotech.store.domain.StoreBin;
+import com.bazotech.store.domain.StoreItem;
+import com.bazotech.store.domain.StoreRack;
+import com.bazotech.store.domain.StoreShelf;
+import com.bazotech.store.domain.Vendor;
+import com.bazotech.store.repositories.VendorRepository;
+import com.bazotech.store.services.MerchantService;
+import com.bazotech.store.services.VendorMerchantService;
+import com.bazotech.store.services.VendorService;
+
+
+@SpringBootApplication
+public class StoreApplication {
+
+	public static void main(String[] args) {
+		
+		
+		/*** -------- Query Play Book Environment -------------***/
+		
+		var context = SpringApplication.run(StoreApplication.class);
+		
+		
+		/********** Vendor Service ************/
+		var vendorService = context.getBean(VendorService.class);
+		
+		// Register a vendor
+		/// vendorService.registerVendor();
+		
+		// Get a vendor by id
+		/// vendorService.getVendorById(1L);
+		
+		// Get a vendor by name
+	    ///	vendorService.getVendorByName();
+		   
+		// Get vendor by email
+		/// vendorService.getVendorByEmail();
+		   
+		// Get all vendors
+		/// vendorService.getAllRegisteredVendors();
+		
+		
+		// Update vendor by id
+		/// vendorService.updateVendorInfo(1L);
+		
+		// Get all vendor addresses
+		/// vendorService.getAllVendorAddresses(1L);
+		
+		// update a vendor address
+		 /// vendorService.updateVendorAddress(1L);
+		  
+		// removing vendor address
+		///  vendorService.removeExistingVendorAddress(1L);
+		
+	
+		// adding a new vendor address
+		 /// vendorService.addNewVendorAddress(1L);
+		 
+		// deleting a vendor
+		/// vendorService.deleteVendor(1L);
+		
+		
+		
+		
+		/********** Merchant Service ************/
+		
+		var merchantService = context.getBean(MerchantService.class);
+		
+		// Register a merchant
+		/// merchantService.registerMerchant();
+		
+		// get a merchant by id
+		/// merchantService.getMerchantById(1L);
+		 
+		 // get a merchant by name
+		 /// merchantService.getMerchantNames();
+		 
+		 // get a merchant by email
+		 /// merchantService.getMerchantByEmail();
+		 
+		  // get all merchants
+		 /// merchantService.getAllRegisteredMerchants();
+		 
+		 // get all merchant addresses
+		  ///merchantService.getAllMerchantAddresses(1L);
+		 
+		// update merchant basic information
+		  ///merchantService.updateMerchantInfo();
+		 
+		 // update a merchant address
+		 ///merchantService.updateMerchantAddress(1L);
+		 
+		 // remove an existing merchant address
+		 ///merchantService.removeExistingMerchantAddress(1L);
+		 
+		 // add a new merchant address
+		  ///merchantService.addMerchantAddress(1L);
+		 
+		  
+		 // delete a merchant
+		  ///merchantService.deleteMerchant(1L);
+		  
+		
+		
+		/******** Linking Vendor to Merchant ********/
+	    var vendorMerchantService = context.getBean(VendorMerchantService.class);
+	    vendorMerchantService.linkVendorToMerchant(1L, 1L);
+		
+		
+		
+		/*** --------- End PlayBook Environment --------------- **/
+		
+		
+		System.out.println();
+		
+		
+	} /* end main method. */
+
+	
+} // end class

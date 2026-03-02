@@ -1,0 +1,99 @@
+package com.bazotech.store.controllers;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.bazotech.store.domain.Colors;
+import com.bazotech.store.domain.Product;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+@Controller
+public class ProductController {
+	
+	/* introduce a logger object for this controller class. */
+	private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
+	
+	/* End-point to provide the product Registration Form. */
+	@GetMapping("/products/add")
+	public String addProduct(Model model){
+		
+		/* create an instance of the product class. */
+		var ProductItem = new Product();
+		
+		/* Add the item to the model so that the form th:object attribute can bind to it */
+		model.addAttribute("productItem", ProductItem);
+		
+		/* create product categories */
+		List<String> itemCategories = List.of("Electronics", "Books", "Clothing", "Home & Kitchen");
+		
+		/* add the categories to the model */
+		model.addAttribute("itemCategories", itemCategories);
+		
+		/* return the item form */
+		return "product_form";
+	}
+	
+	
+	
+	/* Process Product Information sent from a form whose urlencoding is:application/x-www-urlencoded or multipart/form-data */
+	/* In application/x-www-urlencoded, form data comes in key=value&key2=value2 etc pairs */
+	/* In multipart/form-data, the request comes with partition form-data with each partition separated from the other using a browser selected boundary. */
+	/* Knowledge-Point: Since the request is coming in the form application/x- or multipart/form-data, we bind the context of the form to a java object using the @ModelAttribute annotation.*/
+	/* @ModelAttribute("productItem") */
+	
+	@PostMapping("/process/productRegistration")
+	public String processRegistration(Model model, @ModelAttribute("xyz") Product form_submittedProduct,HttpServletRequest req,HttpServletResponse res) throws IOException {
+		logger.info(model.getAttribute("xyz").toString());
+		logger.info("Submitted Product Name:" + form_submittedProduct.getProductName());
+		/* add an item to the spring boot model object. */
+		model.addAttribute("submitted_form",form_submittedProduct);
+		return "frmProcessProduct";
+	}
+	
+	
+	
+	
+	/* Knowledge Point: If we the request body is formatted as json, then we bind to the request body to a java object using @RequestBody annotation as below.*/
+	/* This means map or bind the form fields to the java object derived from the class specified */
+	@PostMapping("/process/jsonProductRegistration")
+	@ResponseBody
+	public Enum<Colors> processJsonRegistration(Model model, @RequestBody Product frmProduct, HttpServletRequest req,HttpServletResponse res) throws IOException {
+		
+		/* access the now initialized product attributes */
+		// res.getWriter().write("<strong> Submitted Product Name:" + frmProduct.getProductName()+"</strong>");
+		
+
+		/* Add an item to the model object */
+		//model.addAttribute("submitted_form",frmProduct);
+		
+		/* view to return to the client */
+		//return "frmProcessProduct";
+		
+		
+		
+		// creating an instance of the colors enumeration
+		Colors myColor = Colors.BLUE;
+		myColor.setColorStrength("strong");
+		
+		return myColor;
+		
+		//return "Hello";
+	}
+	
+}

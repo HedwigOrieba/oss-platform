@@ -1,0 +1,55 @@
+package com.bazotech.store.domain;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.Table;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
+@Builder
+@Setter
+@Getter
+@Table(name="store_rsb_mappings")
+@EqualsAndHashCode(onlyExplicitlyIncluded=true)
+@Entity
+public class StoreRsbMapping {
+	
+	@EmbeddedId
+	@EqualsAndHashCode.Include
+	private StoreRsbId id;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name="slot_status")
+	private SlotStatus slotStatus;
+	
+	@ManyToOne
+	@MapsId("rackID")
+	@JoinColumn(name="rack_id")
+	private StoreRack storageRack;
+	
+	enum SlotStatus {
+		
+		RESERVED("Reserved"),
+		UNRESERVED("Unreserved");
+		
+		private String slot_status;
+		
+		SlotStatus(String status){
+			this.slot_status = status;
+		}
+		
+		public String getSlotStatus() {
+			return this.slot_status;
+		}
+		
+	}
+	
+}

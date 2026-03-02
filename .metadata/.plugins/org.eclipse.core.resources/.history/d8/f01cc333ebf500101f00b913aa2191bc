@@ -1,0 +1,51 @@
+package com.bazotech.store.converters;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+
+import com.bazotech.store.domain.Part;
+
+
+import lombok.extern.slf4j.Slf4j;
+
+@Component
+@Slf4j
+public class IngredientByIdConverter implements Converter<String, Part>{
+
+	private Map<String, Part> ingredientMap = new HashMap<>();
+	
+	/* class constructor */
+	
+	public IngredientByIdConverter() {
+		ingredientMap.put("FLTO",new Part("FLTO", "Flour Tortilla"		, Part.Type.WRAP));
+		ingredientMap.put("COTO",new Part("COTO", "Corn Tortilla" 		, Part.Type.WRAP));
+		ingredientMap.put("GRBF",new Part("GRBF", "Ground Beef"   		, Part.Type.PROTEIN));
+		ingredientMap.put("CARN",new Part("CARN", "Carnitas"        	, Part.Type.PROTEIN));
+		ingredientMap.put("TMTO",new Part("TMTO", "Diced Tomatoes"		, Part.Type.VEGGIES));
+		ingredientMap.put("LETC",new Part("LETC", "Lettuce"			, Part.Type.VEGGIES));
+		ingredientMap.put("CHED",new Part("CHED", "Cheddar"			, Part.Type.CHEESE));
+		ingredientMap.put("JACK",new Part("JACK", "Monterrey Jack"		, Part.Type.CHEESE));
+		ingredientMap.put("SLSA",new Part("SLSA", "Salsa"				, Part.Type.SAUCE));
+		ingredientMap.put("SRCR",new Part("SRCR", "Sour Cream"			, Part.Type.SAUCE));
+	}
+	
+	
+	//private IngredientRepository ingredientRepo;
+	
+	//public IngredientByIdConverter(IngredientRepository ingredientRepo) {
+		//this.ingredientRepo = ingredientRepo;
+	//}
+	
+	
+	@Override
+	public Part convert(String id) {
+		//log.info("Recieved Item Id: {}", id);
+		return ingredientMap.get(id);
+		//return ingredientRepo.findById(id).orElse(null);
+	}
+	
+
+}

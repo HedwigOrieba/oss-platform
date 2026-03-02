@@ -1,0 +1,37 @@
+package com.bazotech.store.domain;
+
+import java.io.Serializable;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Setter
+@Getter
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded =true)
+@Table(name="store_bin")
+public class StoreBin {
+
+	@Column(name="bin_id")
+	private Long binId;
+	
+	@JoinColumn(name="shelf_id")
+	private StoreShelf shelf;
+	
+	@Column(name="bin_label")
+	private String binLabel;
+	
+	@Column(name="bin")
+	private Integer bin;
+	
+}

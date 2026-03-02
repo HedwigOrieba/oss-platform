@@ -1,0 +1,216 @@
+package com.bazotech.store.services;
+
+import org.springframework.stereotype.Service;
+
+import com.bazotech.store.domain.BusinessAddress;
+import com.bazotech.store.domain.Merchant;
+import com.bazotech.store.repositories.MerchantRepository;
+
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+
+import java.util.List;
+
+import org. slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@AllArgsConstructor
+@Service
+public class MerchantService {
+	
+	/* service instance variables */
+	private static final Logger logger = LoggerFactory.getLogger(MerchantService.class);
+	private final MerchantRepository merchantRepository;
+	
+	
+	/* Register a Merchant */
+	//@Transactional
+	public void registerMerchant() {
+		
+		/* base merchant information */
+		
+		var bazoTech = Merchant.builder()
+				.merchantName("Bazotech Limited")
+				.merchantDescription("A technology company that provides software solutions.")
+				.merchantMobile("0778434343")
+				.merchantEmail("services.info@bazotech.com")
+				.build();
+		
+		
+		/* address information */
+		
+		var address1 = BusinessAddress.builder()
+									  .street("Kampala Main Street")
+									  .city("Kampala")
+									  .region("Central Uganda")
+									  .country("Uganda")
+									  .addressType(BusinessAddress.AddressType.PRIMARY)
+									  .description("Headquarters")
+									  .merchant(bazoTech)
+									  .vendor(null)
+									  .build();
+		
+		var address2 = BusinessAddress.builder()
+  									  .street("William Street")
+  									  .city("Kampala")
+  									  .region("Central Uganda")
+  									  .country("Uganda")
+  									  .addressType(BusinessAddress.AddressType.SECONDARY)
+  									  .description("Regional Correspondence Office.")
+  									  .merchant(bazoTech)
+  									  .vendor(null)
+  									  .build();
+		
+		/* first address  */
+		bazoTech.addBusinessAddress(address1);
+		
+		/* second address */
+		bazoTech.addBusinessAddress(address2);     
+		
+		/* save the merchant to the database */
+		var persistedMerchant = merchantRepository.save(bazoTech);
+		
+		/* optional log */
+		logger.info("Registered Merchant: {}", persistedMerchant.toString());
+		
+	}
+	
+	
+	
+	/* Fetch merchant from db given the */
+	@Transactional
+	public Merchant getMerchantById(Long merchantId) {
+		var merchantByProvidedId = merchantRepository.findById(1L).orElseThrow();
+		logger.info("FetchMerchantById:logger:" + merchantByProvidedId.toString());
+		System.out.println("Found Merchant: " + merchantByProvidedId.toString());
+		
+		return merchantByProvidedId;
+	}
+	
+	
+	
+	/* Get merchant names , custom defined */
+	@Transactional
+	public void getMerchantNames() {
+		var merchantNames = merchantRepository.fetchMerchantByName("Bazotech Limited");
+		logger.info("FetchMerchantByName:logger:" + merchantNames.toString());
+	}
+	
+	
+	
+	/* Get merchant by email */
+	@Transactional
+	public void getMerchantByEmail() {
+		var merchantByEmail = merchantRepository.fetchMerchantByEmail("services.info@bazotech.com");
+		logger.info("FetchMerchantByEmail:logger:" + merchantByEmail.toString());
+	}
+	
+	
+	
+	
+	/* Get all Merchants */
+	@Transactional
+	public void getAllRegisteredMerchants() {
+		List<Merchant> allMerchants = (List<Merchant>) merchantRepository.findAll();
+		allMerchants.stream().forEach(merchant -> logger.info("FetchAllMerchants:logger:" + merchant.toString()));
+	}
+	
+	/* given a merchant, get all addresses */
+	@Transactional
+	public void getAllMerchantAddresses(Long merchantID) {
+		var Merchant = this.getMerchantById(merchantID);
+		var addresses = Merchant.getBusinessAddresses();
+		
+		addresses.stream().forEach(address -> logger.info("FetchMerchantAddresses:logger:" + address.toString()));
+	}
+	
+	
+	/* Update Merchant Basic Information */
+	@Transactional
+	public void updateMerchantInfo() {
+		
+		var merchantToUpdate = this.getMerchantById(1L);
+		
+		merchantToUpdate.setMerchantName("Bazotech Limited");
+		merchantToUpdate.setMerchantDescription("A technology company that provides software solutions.");
+		merchantToUpdate.setMerchantMobile("0778777777");
+		merchantToUpdate.setMerchantEmail("bazo.info@service.com");
+		
+		var updatedMerchant = merchantRepository.save(merchantToUpdate);	
+		logger.info("UpdatedMerchantInfo:logger:" + updatedMerchant.toString());
+	}
+	
+	
+	
+	/* Update Merchant Address */
+	@Transactional
+	public void updateMerchantAddress(Long merchantId) {
+		var merchantForAddressUpdate = this.getMerchantById(merchantId);
+		var merchantAddressList = merchantForAddressUpdate.getBusinessAddresses();
+		
+		merchantAddressList.stream().forEach(address -> {
+			if(address.getBusinessAddressId().equals(1L)) {
+				address.setStreet("Kampala Main Street");
+				address.setCity("Kampala");
+				address.setRegion("Central Uganda");
+				address.setCountry("Uganda");
+				address.setDescription("Headquarters...");
+				address.setAddressType(BusinessAddress.AddressType.PRIMARY);
+			}
+		});
+		
+		merchantRepository.save(merchantForAddressUpdate);
+			logger.info("UpdatedMerchantAddress:logger:" + merchantForAddressUpdate.toString());
+	}
+	
+	
+	
+	/* Removing a Merchant Address */
+	@Transactional
+	public void removeExistingMerchantAddress(Long merchantID) {
+		var merchant = this.getMerchantById(merchantID);
+		var iterator = merchant.getBusinessAddresses().iterator();
+		
+		while(iterator.hasNext()) {
+			var address = iterator.next();
+			if(address.getBusinessAddressId().equals(2L)) {
+				iterator.remove();
+				address.setMerchant(null);
+			}
+		}
+		
+		merchantRepository.save(merchant);
+	}
+	
+	
+	
+	/* Adding a merchant address */
+	@Transactional
+	public void addMerchantAddress(Long merchantID) {
+		var merchant = this.getMerchantById(merchantID);
+		
+		var newAddress = BusinessAddress.builder()
+										.street("New Street Name")
+										.city("Entebbe")
+										.region("Updated Region Name")
+										.country("Uganda")
+										.addressType(BusinessAddress.AddressType.SECONDARY)
+										.description("Updated Description for the address")
+										.merchant(merchant)
+										.vendor(null)
+										.build();
+		
+		merchant.addBusinessAddress(newAddress);
+		
+		merchantRepository.save(merchant);
+		logger.info("AddedMerchantAddress:logger:" + merchant.toString());
+	}
+	
+	
+	/* Deleting a Merchant */
+	public void deleteMerchant(Long merchantID) {
+		merchantRepository.deleteById(merchantID);
+		logger.info("DeletedMerchant:logger: Merchant with ID " + merchantID + " has been deleted.");
+	}
+	
+}

@@ -1,0 +1,102 @@
+package com.bazotech.store.domain;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Builder
+@Table(name="stores")
+@Entity
+@Getter
+@Setter 
+@ToString(exclude = {"storeItems","storeRacks"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+
+public class Store {
+	
+	@Id 
+	@GeneratedValue(strategy=GenerationType.IDENTITY) 
+	@Column(name="store_id")
+	@EqualsAndHashCode.Include
+	private Long storeId; 
+	
+	@NotBlank @Column(name="store_name", nullable=false) 
+	private String storeName; 
+	
+	@NotBlank @Column(name="store_location", nullable=false) 
+	private String storeLocation;
+	
+	@Enumerated(EnumType.STRING) 
+	@Column(name="store_type", nullable=false) 
+	private StoreType storeType;
+	
+	@Column(name="store_description", columnDefinition="TEXT") 
+	private String storeDescription;
+	
+	@Column(name="created_on", nullable=false, updatable=false) 
+	private LocalDateTime createdOn; 
+	
+	@PrePersist 
+	protected void onCreate() { 
+		if(createdOn == null) {
+			this.createdOn = LocalDateTime.now();
+		}
+	}
+	
+	
+	/* relationship to store racks */
+	@Builder.Default
+	@OneToMany(mappedBy="store", cascade=CascadeType.ALL, orphanRemoval=true)
+	List<StoreRack> storeRacks = new ArrayList<>();
+	
+	/** Helper method to add a store rack **/
+	public void addStoreRack(StoreRack storerack) {
+		if(!storeRacks.contains(storerack)) {
+			storeRacks.add(storerack);
+			storerack.setStore(this);
+		}
+	}
+	
+	/** Helper method to remove a store rack **/
+	public void removeStoreRack(StoreRack storerack) {
+		storeRacks.remove(storerack);
+		storerack.setStore(null);
+	}
+	
+	
+	
+	/* Store Type Enumeration */ 
+	public enum StoreType {
+		
+		MAIN("Main Store"), 
+		TRANSIT("Transit Store"), 
+		REGIONAL("Regional Depot"), 
+		RETAIL("Retail Outlet"), 
+		ONLINE("Online Fulfillment Center"); 
+		
+		private final String label;
+		
+		StoreType(String label) { this.label = label; } 
+		public String getLabel() { return label; } 
+		
+	}
+	
+}

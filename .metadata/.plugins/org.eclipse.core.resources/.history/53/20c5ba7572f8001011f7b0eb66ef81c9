@@ -1,0 +1,70 @@
+package com.bazotech.store.controllers;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.bazotech.store.domain.UserForm;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+@Controller
+public class FormController {
+	
+	/* Logger instance */
+	private static final Logger logger = LoggerFactory.getLogger(FormController.class);
+	
+	@GetMapping("/register")
+	public String userRegistrationPage(Model model) {
+		
+		UserForm userForm = new UserForm();
+		model.addAttribute("userForm", userForm);
+
+		List<String> professions = List.of("Developer", "Designer", "Manager", "Tester");
+		model.addAttribute("professions", professions);
+		
+		return "register_form";
+	}
+	
+	// user registration form submission handling
+	// http://localhost:8080/register/save
+	@PostMapping("/register/save")
+	public String submitform (Model model, HttpServletRequest request, HttpServletResponse response,@ModelAttribute("userForm") UserForm userForm) {
+		
+		/** Processing the raw request directly. This also bypasses thymeleaf **/
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		
+		logger.info("Form Submitted with Name: {}, Email: {}, Password: {}", name, email, password);
+		logger.info("UserForm Data: Name: {}", userForm.getName());
+		
+		
+		try {
+				response.getWriter().write("<p>Form submitted successfully!</p>");
+				response.addHeader("x-authtoken", "123abcds");
+		} catch (IOException e) {
+				e.printStackTrace();
+		}
+		
+		/**Processing a raw response object this still bypasses thymeleaf. **/
+		response.setStatus(HttpServletResponse.SC_OK);
+		response.setContentType("text/html");
+		response.setCharacterEncoding("UTF-8");
+		response.addHeader("x-custom-header", "x-auth-token");
+		//model.addAttribute("userForm", userForm);
+		
+		/** This passes control to the template engine. **/
+		return "form_success";
+	}
+	
+}

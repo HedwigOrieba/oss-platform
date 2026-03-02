@@ -1,0 +1,18 @@
+package com.bazotech.store.repositories;
+
+import java.util.Optional;
+
+import com.bazotech.store.domain.Ingredient;
+
+public interface IngredientRepository {
+	
+	/* method to fetch all ingredients into a collection. */
+	Iterable<Ingredient> findAll();
+	
+	/* method to query for a single ingredient. */
+	Optional<Ingredient> findById(String id);
+	
+	/* method to save an ingredient object. */
+	Ingredient save(Ingredient ingredient);
+	
+}

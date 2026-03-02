@@ -1,0 +1,92 @@
+package com.bazotech.store.services;
+
+import java.util.List;
+
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import com.bazotech.store.domain.BusinessAddress;
+import com.bazotech.store.domain.Vendor;
+import com.bazotech.store.repositories.VendorRepository;
+
+import jakarta.persistence.EntityManager;
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
+@Service
+public class VendorService {
+	
+	private static final Logger logger = LoggerFactory.getLogger(VendorService.class);
+	
+	private final VendorRepository vendorRepository;
+	private final EntityManager persistenceContext;
+	
+	
+	/* Business Service to register a vendor */
+	public void registerVendor() {
+		
+		/** Base Vendor Information **/
+		var microsoft = Vendor.builder()
+									.vendorName("Microsoft Corporation")
+									.vendorDescription("A Tier-1 software company.")
+									.vendorMobile("0778434343")
+									.vendorEmail("info@microsoft.com") /* Mandatory field */
+									.build();
+		
+		/** Address information **/
+		var address1 = BusinessAddress.builder()
+									.country("Uganda")
+									.city("Kampala")
+									.street("Kampala") //optional
+									.region("Central Uganda")
+									.merchant(null)
+									.vendor(microsoft)
+									.build();
+		
+		var address2 = BusinessAddress.builder()
+									 .country("Uganda")
+									 .city("Kampala")
+									 .street("William")
+									 .region("Central Region")
+									 .merchant(null)
+									 .vendor(microsoft)
+									 .build();
+		
+		/** Binding the addresses to the vendor instance **/
+		//microsoft.setBusinessAddresses(List.of(address1,address2));
+		
+		/** First address **/
+		 microsoft.addBusinessAddress(address1);
+		
+		/** second address **/
+		 microsoft.addBusinessAddress(address2);
+		
+		/** saving the vendor instance to the database **/
+		var persistedVendor = vendorRepository.save(microsoft);
+		
+		System.out.println();
+		
+		System.out.println("Persisted: "+ persistedVendor.toString());
+		System.out.println("Vendor Record Successfully Saved to Database!!!");
+		
+		System.out.println();
+		
+	}
+	
+	
+	/* Retrieve a vendor by id */
+	public void getVendorById() {
+		var foundVendor = vendorRepository.findById(1L).orElseThrow();
+		logger.info(foundVendor.getVendorEmail().toString());
+	}
+	
+	
+	/* Retrieve a vendor by name */
+	
+	
+	/* Retrieve a vendor by */
+	
+	
+}

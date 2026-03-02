@@ -1,0 +1,38 @@
+1768814384825	Rename resource 'application.properties'
+1768818415459	Rename package 'com.bazotech.store.repositories'
+1768819591509	Rename package 'com.bazotech.store.services'
+1768823588767	Rename type 'JdbcIngredientRepository'
+1768823956783	Delete element
+1768828525437	Delete element
+1768898608070	Delete element
+1768902986690	Rename type 'TacoOrder'
+1768903027260	Rename type 'Product'
+1768903042590	Rename type 'Taco'
+1768903055058	Delete element
+1768903891647	Rename type 'Ingredient'
+1768903915429	Delete element
+1768905098313	Rename type 'IngredientByIdConverter'
+1768910418446	Rename compilation unit 'DesignTacoController.java'
+1768910533939	Rename type 'DesignProductController'
+1768910594706	Rename type 'DesignProductsController'
+1768913111719	Rename resource 'schema.sql'
+1768913122518	Rename resource 'data.sql'
+1768942402956	Rename type 'Billing'
+1769022666051	Delete element
+1769074924630	Rename type 'Part'
+1769075931365	Rename type 'ProductProto'
+1769075980814	Rename type 'Merchant'
+1769077065081	Rename compilation unit 'ItemCategories.java'
+1769079208328	Rename type 'ProductOrder'
+1769112672001	Rename type 'Inventory'
+1769125290057	Rename type 'Tag'
+1769125334814	Rename type 'Price'
+1769150400138	Delete element
+1769181577191	Rename resource 'v1__initial_migration.sql'
+1769182194418	Delete elements
+1769183093372	Delete elements
+1769183692823	Move 'V1__initial_migration.sql' to 'migration'
+1769183780266	Delete element
+1769246404635	Rename type 'StoreRacks'
+1769249388175	Rename type 'StoreRSB'
+1769249593281	Rename type 'StoreRSBMapping'

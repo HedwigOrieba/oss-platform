@@ -1,0 +1,76 @@
+package com.bazotech.store.domain;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Builder
+@Table(name="vendors")
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Setter
+@Getter
+@ToString //(exclude = {"businessAddresses"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class Vendor {
+	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@EqualsAndHashCode.Include
+	@Column(name="vendor_id")
+	private Long vendorId;
+	
+	@OneToMany(mappedBy="vendor", cascade=CascadeType.ALL, orphanRemoval=true)
+	private List<BusinessAddress> businessAddresses = new ArrayList<>();
+	
+	/* helper methods for businessAddresses */ 
+	public void addBusinessAddress(BusinessAddress address) { 
+		if (!businessAddresses.contains(address)) {
+			businessAddresses.add(address); 
+			address.setVendor(this); 
+		} 
+	} 
+	
+	public void removeBusinessAddress(BusinessAddress address) { 
+		businessAddresses.remove(address); 
+		address.setVendor(null);
+	}
+	/* end helper method */
+
+	@Column(name="vendor_name")
+	private String vendorName;
+	
+	@Column(name="vendor_description")
+	private String vendorDescription;
+	
+	@Min(value = 10, message="Merchant mobile must be atleast 10 digits.")
+	@Max(value = 13, message="Merchant mobile can not exceed 13 digits.")
+	@Column(name="vendor_mobile")
+	private String vendorMobile;
+	
+	@NotBlank
+	@Email
+	@Column(name="vendor_email")
+	private String vendorEmail;
+	
+}

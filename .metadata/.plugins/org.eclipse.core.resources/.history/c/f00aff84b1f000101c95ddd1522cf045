@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html xmlns:th="http:/ /www.thymeleaf.org">
+  <head>
+    <title>Taco-Cloud</title>
+  </head>
+  <body>
+    <h1>Taco Design Page</h1>
+    <p> This is my applications testing environment for Thymeleaf templates.</p>
+  </body>
+</html>

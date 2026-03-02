@@ -1,0 +1,109 @@
+package com.bazotech.store;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.bazotech.store.domain.BusinessAddress;
+import com.bazotech.store.domain.Vendor;
+
+@SpringBootApplication
+public class StoreApplication {
+
+	public static void main(String[] args) {
+		//SpringApplication.run(StoreApplication.class, args);
+		//Colors color = Colors.RED;
+		//System.out.println("Selected color: " + color);
+		
+		 //Colors[] color =Colors.values();
+		 //for(Colors c: color) {
+		//	 System.out.println("Color: " + c);
+		 //}
+		
+		var programmingLangs = List.of("Java", "Python", "JavaScript", "C#", "Ruby");
+		programmingLangs.stream()
+		.filter(lang -> lang.startsWith("J"))
+		.forEach(lang -> System.out.println("Programming Language: " + lang));
+		
+		// using flat-map
+//		var mixedStream = Stream.of(List.of(1,2,3), List.of("a","b","c"));
+//		mixedStream
+//		.flatMap(list -> list.stream())
+//		.forEach(item -> System.out.print(item));
+	
+	
+		
+		/* Testing the vendor class */
+		var v1 = new Vendor();
+		
+		var address1 = new BusinessAddress();
+		
+		address1.setCity("Kampala");
+		address1.setCountry("Uganda");
+		address1.setVendor(v1);
+		address1.setStreet("William Street");
+		address1.setRegion("Central");
+		
+		var address2 = new BusinessAddress();
+		
+		address2.setCity("Jinja");
+		address2.setCountry("Uganda");
+		address2.setVendor(v1);
+		address2.setStreet("Kyabazinga Road");
+		address2.setRegion("Eastern");
+		
+		List<BusinessAddress> vlist = new ArrayList<>();
+		
+		vlist.add(address1);
+		vlist.add(address2);
+		
+		v1.setVendorName("Microsoft");
+		v1.setVendorDescription("US Software Company");
+		v1.setBusinessAddresses(vlist);
+		
+		/* Display first vendor */
+		System.out.println("vendor1: "+ v1.toString());
+		
+		
+		Vendor v2 = Vendor.builder()
+							  .vendorName("Oracle Corporation")
+							  .vendorDescription("The strongest software company")
+							  .build();
+		
+		
+		List<BusinessAddress> bizzAddress = List.of( BusinessAddress.builder()
+														.city("Washington")
+														.country("United States of America")
+														.street("Glass ware")
+														.build(),
+														
+										BusinessAddress.builder()
+														.city("Kampala")
+														.country("Uganda")
+														.street("Wilson Street")
+														.build(),
+														
+										BusinessAddress.builder()
+														.city("Lagos")
+														.country("Nigeria")
+														.street("Elegu Street")
+														.build()
+										);
+								
+			v2.setBusinessAddresses(bizz);
+							  
+			System.out.println("vendor2: "+ v2.toString());
+		
+		
+		
+	}// end main method.
+
+		//	public static enum Colors{
+		//		RED,
+		//		BLUE,
+		//		GREEN
+		//	}
+} // end class

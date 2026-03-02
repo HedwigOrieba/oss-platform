@@ -1,0 +1,36 @@
+<!Doctype html>
+<html lang="en-US" xmlns="http://www.thymeleaf.org">
+    <head>
+        <title>Thymeleaf Link Expressions</title>
+        <meta charset="utf-8"/>
+        <meta name="author" content="Hedwig Orieba"/>
+        <link rel="stylesheet" th:href="@{/css/cssfile.css}"/>
+    </head>
+    <body>
+        <h3> Link Expressions</h3>
+        
+        <div>
+        	<img th:src="@{/images/bio.jpg}" width="100px" height="100px"/>
+        </div>
+        <p>
+            <a th:href="@{https://www.google.com}"> Go to google </a>
+        </p>
+        
+        <p>
+        	<a th:href="@{/}">home</a>
+        </p>
+        
+         <p>
+        	<a th:href="@{/user}">view user</a>
+        </p>
+        
+         <p>
+        	<a th:href="@{/users}">Users List</a>
+        </p>
+  
+  		 <p>
+        	<a th:href="@{/link_expression/{id}(id=${id})}">self_reference</a>
+        </p>
+    </body>
+
+</html>

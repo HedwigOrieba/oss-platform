@@ -1,0 +1,130 @@
+package com.bazotech.store.controllers; 
+
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import com.bazotech.store.domain.*;
+import com.bazotech.store.domain.Ingredient.Type;
+
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Slf4j
+@Controller
+@RequestMapping("/design")
+@SessionAttributes("tacoOrder") // keep the value associated with the key tacoOrder existing across different sessions.
+public class DesignTacoController {
+	
+	//private final IngredientRepository ingredientRepo;
+	
+	//@Autowired
+	// DesignTacoController(IngredientRepository ingredientRepo) {
+	//	this.ingredientRepo = ingredientRepo;
+	//}
+	
+	
+	/* Spring processes this method before calling any request handler methods. */
+	@ModelAttribute
+	public void addIngredientsToModel(Model model) { /** Start Method Definition **/
+		
+		/* creating a list of ingredients */
+		
+		List<Ingredient> ingredients = Arrays.asList(
+				new Ingredient("FLTO", "Flour Tortilla"		, Ingredient.Type.WRAP),
+				new Ingredient("COTO", "Corn Tortilla" 		, Ingredient.Type.WRAP),
+				new Ingredient("GRBF", "Ground Beef"   		, Ingredient.Type.PROTEIN),
+				new Ingredient("CARN", "Carnitas"        	, Ingredient.Type.PROTEIN),
+				new Ingredient("TMTO", "Diced Tomatoes"		, Ingredient.Type.VEGGIES),
+				new Ingredient("LETC", "Lettuce"			, Ingredient.Type.VEGGIES),
+				new Ingredient("CHED", "Cheddar"			, Ingredient.Type.CHEESE),
+				new Ingredient("JACK", "Monterrey Jack"		, Ingredient.Type.CHEESE),
+				new Ingredient("SLSA", "Salsa"				, Ingredient.Type.SAUCE),
+				new Ingredient("SRCR", "Sour Cream"			, Ingredient.Type.SAUCE)
+		);
+		
+		
+		//Iterable<Ingredient> ingredients = ingredientRepo.findAll();
+		
+		/* create an array of types.*/
+		Type[] types = Ingredient.Type.values();
+		
+		
+		/* Add to the model a filtered list of ingredients for each type.*/
+		for(Type type:types) {
+			model.addAttribute(type.toString().toLowerCase(),filterByType((List<Ingredient>) ingredients, type));
+		}
+		
+		
+	} /** End Method addIngredientsToModel **/
+	
+	
+	
+	
+	/* Helper method to filter ingredients by type. */
+	private Iterable<Ingredient> filterByType(List<Ingredient> ingredients, Type type) {
+		return ingredients
+				.stream()
+				.filter(ingredient -> ingredient.getType().equals(type))
+				.collect(Collectors.toList());
+	}
+		
+	
+	/* Add the tacoOrder object to the model if it does not already exist in the model.*/
+	@ModelAttribute(name="tacoOrder")
+	public ProductOrder tacoOrder() {
+		return new ProductOrder();
+	}
+	
+	
+	
+	/* Add the taco object to the model if it does not already exist in the model.*/
+	@ModelAttribute(name="taco")
+	public Taco taco() {
+		return new Taco();
+	}
+	
+	
+	
+	/* Method to handle GET requests for /design */
+	@GetMapping
+	public String showDesignForm() {
+		return "design";
+	}
+	
+	
+	/* Processing the submitted form */
+	@PostMapping
+	public String processTaco(@Valid Taco taco, Errors errors, @ModelAttribute ProductOrder tacoOrder,HttpServletRequest req, HttpServletResponse res) {
+		/* if any errors are identified, stop processing and re-display the design form.*/
+		if(errors.hasErrors()) {
+			return "design";
+		}
+		
+		taco.getIngredients().forEach(ingredient -> log.info("from converter: {}", ingredient));
+		
+		tacoOrder.addTaco(taco);
+		// Logic to persist taco creations to the database comes here.
+		log.info("Processing taco: {}", taco);
+		//return "redirect:/";
+		return "redirect:/orders/current";
+		
+	}
+
+	
+	
+	
+} // end class
