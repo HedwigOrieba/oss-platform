@@ -23,11 +23,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Builder
 @Getter
@@ -36,13 +32,15 @@ import lombok.ToString;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name="inventory_items")
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class InventoryItem {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	@Column(name="item_id", nullable=false)
-	private Long itemId;
+	private Long itemId;// byte:8bits,short:2bytes,int:4bytes,long:8byte,10,000,000
 	
 	@NotNull
 	@ManyToOne(optional=false) 

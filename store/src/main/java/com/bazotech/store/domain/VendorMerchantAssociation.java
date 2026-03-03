@@ -29,6 +29,7 @@ import lombok.Setter;
 public class VendorMerchantAssociation {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "association_id")
 	private Long id;
 	
 	@ManyToOne

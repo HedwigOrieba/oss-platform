@@ -1,0 +1,1 @@
+alter table item_categories add constraint unique_category_name unique(category_name);

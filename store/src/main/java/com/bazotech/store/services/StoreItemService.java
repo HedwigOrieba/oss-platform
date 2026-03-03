@@ -1,0 +1,22 @@
+package com.bazotech.store.services;
+
+import com.bazotech.store.domain.StoreItem;
+import com.bazotech.store.repositories.StoreItemRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@AllArgsConstructor
+public class StoreItemService {
+    private final StoreItemRepository storeItemRepository;
+    private final InventoryItemService inventoryItemService;
+    private final ItemBatchService itemBatchService;
+
+    public void createStoreItem(){
+        StoreItem.builder()
+                .item(inventoryItemService.getInventoryItemById(1L))
+                .itemBatch(itemBatchService.getItemBatchById(1L))
+                .price()
+
+    }
+}

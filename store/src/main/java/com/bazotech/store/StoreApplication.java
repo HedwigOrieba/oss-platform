@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 
+import com.bazotech.store.services.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -24,13 +25,6 @@ import com.bazotech.store.domain.StoreRack;
 import com.bazotech.store.domain.StoreShelf;
 import com.bazotech.store.domain.Vendor;
 import com.bazotech.store.repositories.VendorRepository;
-import com.bazotech.store.services.MerchantService;
-import com.bazotech.store.services.StoreBinService;
-import com.bazotech.store.services.StoreRackService;
-import com.bazotech.store.services.StoreService;
-import com.bazotech.store.services.StoreShelfService;
-import com.bazotech.store.services.VendorMerchantService;
-import com.bazotech.store.services.VendorService;
 
 
 @SpringBootApplication
@@ -48,7 +42,7 @@ public class StoreApplication {
 		///var vendorService = context.getBean(VendorService.class);
 		
 		// Register a vendor
-		 //vendorService.registerVendor();
+		 ///vendorService.registerVendor();
 		
 		// Get a vendor by id
 		/// vendorService.getVendorById(1L);
@@ -90,7 +84,7 @@ public class StoreApplication {
 		///var merchantService = context.getBean(MerchantService.class);
 		
 		// Register a merchant
-		// merchantService.registerMerchant();
+		 ///merchantService.registerMerchant();
 		
 		// get a merchant by id
 		/// merchantService.getMerchantById(1L);
@@ -129,7 +123,7 @@ public class StoreApplication {
 	    ///var vendorMerchantService = context.getBean(VendorMerchantService.class);
 	    
 	    // Link a created vendor to a merchant
-	    /// vendorMerchantService.linkVendorToMerchant(1L, 1L);
+	    ///vendorMerchantService.linkVendorToMerchant(1L, 1L);
 		
 		
 	    
@@ -137,8 +131,8 @@ public class StoreApplication {
 		
 		
 	   // create store
-	   /// var storeService = context.getBean(StoreService.class);
-	   /// storeService.createStore();
+	    ///var storeService = context.getBean(StoreService.class);
+	    ///storeService.createStore();
 	   
 		
 	   // create rack
@@ -155,7 +149,7 @@ public class StoreApplication {
 	   
 		
 	   // create six rack-bin
-		///var storeBinService = context.getBean(StoreBinService.class);
+		/// var storeBinService = context.getBean(StoreBinService.class);
 		
 		///storeBinService.createStoreBin("Bin-1");
 		///storeBinService.createStoreBin("Bin-2");
@@ -166,11 +160,27 @@ public class StoreApplication {
 	   
 	   
 	   
-	   
-	    
-		
-	   
-	   
+		// creating the inventory item aggregate
+
+		// create an item category
+		///var itemCategoryService = context.getBean(ItemCategoryService.class);
+		///itemCategoryService.createItemCategory("Electrical", "Electric appliances.");
+
+		// create an inventory item
+		///var inventoryService = context.getBean(InventoryItemService.class);
+		///inventoryService.createInventoryItem();
+
+		// create an item batch
+		///var itemBatchService = context.getBean(ItemBatchService.class);
+		///itemBatchService.createItemBatch();
+		// create item pricing
+		///var itemPricingService = context.getBean(ItemPricingService.class);
+		///itemPricingService.createItemPrice("");
+
+
+
+
+
 	   
 		/*** --------- End PlayBook Environment --------------- **/
 		
@@ -178,7 +188,7 @@ public class StoreApplication {
 		System.out.println();
 		
 		
-	} /* end main method. */
+	} /* end main-method. */
 
 	
 } // end class
