@@ -2,17 +2,17 @@
 <section name="Workbench">
 	<item key="hasShownOverlayPopupBefore" value="true"/>
 	<section name="java.lang.Class">
-		<item key="selection" value="private jdbcOperations jdbcOperations;"/>
+		<item key="selection" value="var itemPricingService = context.getBean(ItemPricingService.class);"/>
 		<item key="replaceBarOpen" value="true"/>
 		<list key="findhistory">
+			<item value="var itemPricingService = context.getBean(ItemPricingService.class);"/>
+			<item value="store_ite"/>
 			<item value="taco"/>
 			<item value="tacoOrder"/>
 			<item value="productPartsMap"/>
 			<item value="private jdbcOperations jdbcOperations;"/>
 			<item value="public void setColorStrength(String _strength) {"/>
 			<item value="try {"/>
-			<item value="&lt;!Doctype html&gt;"/>
-			<item value="&lt;dependency&gt;"/>
 		</list>
 		<list key="replacehistory">
 			<item value="product"/>
