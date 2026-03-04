@@ -29,9 +29,14 @@ public class ItemCategoryService {
         System.out.println("Item category successfully saved!!");
     }
 
-    // fetch item category by id.
+    // get item category by id.
     public ItemCategory getItemCategoryById(Long id){
         return itemCategoryRepository.findById(id).orElseThrow();
     }
+    
+    // get item category by name.
+    public ItemCategory getItemCategoryByName(String categoryName){
+		return itemCategoryRepository.findByCategoryName(categoryName).orElseThrow();
+	}
 
 }

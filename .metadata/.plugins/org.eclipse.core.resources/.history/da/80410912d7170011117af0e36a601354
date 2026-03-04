@@ -1,0 +1,73 @@
+package com.bazotech.store.domain;
+
+import java.math.BigDecimal;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Builder
+@Table(name="item_pricing")
+@Entity
+@Getter 
+@Setter 
+@ToString(exclude = {"item"})
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class ItemPricing {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@EqualsAndHashCode.Include
+	@Column(name="price_id")
+	private Long priceId;
+	
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	@Column(name="price_category")
+	private PriceCategory priceCategory;
+	
+	@NotNull
+	@Builder.Default
+	@DecimalMin(value="0.0", inclusive=true, message="Amount must be non-negative")
+	@Column(name="category_amount",nullable=false, precision=10, scale=2)
+	private BigDecimal categoryAmount = BigDecimal.ZERO;
+	
+	@ManyToOne(optional=false) 
+	@JoinColumn(name="item_id", nullable=false) 
+	private InventoryItem item;
+	
+	
+	/* Category Enumeration */
+	public enum PriceCategory{
+		
+		GOLD("Gold"),
+		SILVER("Silver"),
+		PLATINUM("Platinum");
+		
+		private final String enumLabel;
+		
+		PriceCategory(String category_label){
+			this.enumLabel =category_label;
+		}
+		
+		public String getEnumLabel() {
+			return enumLabel;
+		}
+		
+	}
+	
+	
+}

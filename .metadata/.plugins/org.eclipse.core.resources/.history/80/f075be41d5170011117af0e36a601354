@@ -1,0 +1,52 @@
+package com.bazotech.store.services;
+
+import com.bazotech.store.domain.ItemPricing;
+import com.bazotech.store.repositories.ItemPricingRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+@Service
+@AllArgsConstructor
+public class ItemPricingService {
+
+    private final ItemPricingRepository itemPricingRepository;
+    private final InventoryItemService inventoryItemService;
+
+    public void createItemPrice(String priceCategory, Long inventoryItemId, double amount){
+
+        var itemPrice = ItemPricing.builder()
+                                .item(inventoryItemService.getInventoryItemById(inventoryItemId))
+                                .priceCategory(getPriceCategory(priceCategory))
+                                .categoryAmount(BigDecimal.valueOf(amount))
+                                .build();
+        itemPricingRepository.save(itemPrice);
+        System.out.println(priceCategory + " pricing created successfully!!");
+    }
+
+
+    // get pricing level by price category
+    private ItemPricing.PriceCategory getPriceCategory(String priceCategory){
+        switch(priceCategory){
+            case "gold":
+                return ItemPricing.PriceCategory.GOLD;
+            case "platinum":
+                return ItemPricing.PriceCategory.PLATINUM;
+            case "silver":
+                return ItemPricing.PriceCategory.SILVER;
+            default:
+                return ItemPricing.PriceCategory.GOLD;
+        }
+    }
+
+
+    // method to get the list of prices associated to an item
+    public void getItemPrices(Long inventoryItemId) {
+    		 List<ItemPricing> itemPrices = (List<ItemPricing>) itemPricingRepository.findByItem_Id_Item_Id(inventoryItemId);
+    		 itemPrices.stream().forEach(item -> System.out.println(item.toString()));
+    }
+
+
+}

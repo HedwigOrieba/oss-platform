@@ -1,6 +1,6 @@
 package com.bazotech.store.services;
 
-import com.bazotech.store.domain.InventoryItem;
+//import com.bazotech.store.domain.InventoryItem;
 import com.bazotech.store.domain.ItemBatch;
 import com.bazotech.store.repositories.ItemBatchRepository;
 import lombok.AllArgsConstructor;
@@ -13,11 +13,12 @@ public class ItemBatchService {
     private final InventoryItemService inventoryItemService;
 
     // create inventory item batch
-    public void createItemBatch(){
+    // initialize expiry date
+    public void createItemBatch(String batchNumber, int batchQuantity, Long inventoryItemId){
         var batch = ItemBatch.builder()
-                .batchNumber("B1")
-                .batchQuantity(10) // less than or equal to the inventory_item Quantity.
-                .inventoryItem(inventoryItemService.getInventoryItemById(1L))
+                .batchNumber(batchNumber)
+                .batchQuantity(batchQuantity) // less than or equal to the inventory_item Quantity.
+                .inventoryItem(inventoryItemService.getInventoryItemById(inventoryItemId))
                 .build();
 
         itemBatchRepository.save(batch);
@@ -26,6 +27,8 @@ public class ItemBatchService {
 
     // Get item batch by id
     public ItemBatch getItemBatchById(Long id){
-        return itemBatchRepository.findById(id).orElseThrow();
+        var batch = itemBatchRepository.findById(id).orElseThrow();
+        System.out.println("Batch retrieved: " + batch.toString());
+        return batch;
     }
 }

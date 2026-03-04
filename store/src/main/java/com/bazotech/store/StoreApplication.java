@@ -172,15 +172,27 @@ public class StoreApplication {
 
 		// create an item batch
 		///var itemBatchService = context.getBean(ItemBatchService.class);
-		///itemBatchService.createItemBatch();
+		///itemBatchService.createItemBatch("ISBN-IBTCH-001", 40, 1L);
+		///itemBatchService.getItemBatchById(1L);
+		
 		// create item pricing
 		///var itemPricingService = context.getBean(ItemPricingService.class);
-		///itemPricingService.createItemPrice("");
+		///itemPricingService.createItemPrice("platinum", 1L, 100.006);
+		///
+		
+		// testing price retrieval
+		///var itemPricingService = context.getBean(ItemPricingService.class);
+		///itemPricingService.getItemPrices(1L, "platinum");
+		///
+		
+		// create a store item
+		///var storeItemService = context.getBean(StoreItemService.class);
+		///storeItemService.createStoreItem();
 
+		
 
-
-
-
+		
+		
 	   
 		/*** --------- End PlayBook Environment --------------- **/
 		

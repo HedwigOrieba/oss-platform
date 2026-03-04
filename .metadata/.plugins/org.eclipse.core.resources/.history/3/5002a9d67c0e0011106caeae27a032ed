@@ -1,5 +1,0 @@
-package com.bazotech.store.repositories;
-
-public interface StoreRepository {
-
-}

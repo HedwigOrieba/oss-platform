@@ -32,4 +32,9 @@ public class StoreBinService {
 		
 		System.out.println("Bin created successfully!!");
 	}
+	
+	// get store bin by id.
+	public StoreBin getStoreBinById(Long id) {
+		return storeBinRepository.findById(id).orElseThrow();
+	}
 }

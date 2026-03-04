@@ -27,6 +27,12 @@ public class StoreService {
 		storeRepository.save(store);
 		System.out.println("Store created: " + store);
 	}
+
+	
+	
+	public Store getStoreById(long storeId) {
+		return storeRepository.findById(storeId).orElseThrow();
+	}
 	
 	
 }

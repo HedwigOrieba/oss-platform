@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class InventoryItemService {
+	
     private final InventoryItemRepository inventoryItemRepository;
     private final VendorService vendorService;
     private final MerchantService merchantService;

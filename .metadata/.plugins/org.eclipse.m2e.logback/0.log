@@ -17722,3 +17722,18 @@ org.eclipse.core.runtime.CoreException: Could not resolve artifact org.springfra
 2026-02-24 13:22:12,604 [Worker-1994: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
 2026-02-24 13:22:12,615 [Worker-1994: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 26 resources from src\main\resources to target\classes
 2026-02-24 13:22:13,048 [Worker-1994: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory E:\JAVA PROJECTS\004_STORE_APP\Online-Store\store\src\test\resources
+2026-03-03 19:07:37,616 [Worker-5: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2026-03-03 19:07:45,580 [Worker-8: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.bazotech.store:store:0.0.1-SNAPSHOT @ E:\JAVA PROJECTS\004_STORE_APP\oss-platform\store\pom.xml.
+2026-03-03 19:07:46,495 [Worker-8: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2026-03-03 19:07:46,602 [Worker-8: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 27 resources from src\main\resources to target\classes
+2026-03-03 19:07:47,955 [Worker-8: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory E:\JAVA PROJECTS\004_STORE_APP\oss-platform\store\src\test\resources
+2026-03-03 19:09:00,497 [Worker-5: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2026-03-03 19:09:00,503 [Worker-5: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 27 resources from src\main\resources to target\classes
+2026-03-03 19:09:00,525 [Worker-5: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory E:\JAVA PROJECTS\004_STORE_APP\oss-platform\store\src\test\resources
+2026-03-04 11:49:49,705 [Worker-44: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.bazotech.store:store:0.0.1-SNAPSHOT @ E:\JAVA PROJECTS\004_STORE_APP\oss-platform\store\pom.xml.
+2026-03-04 11:49:52,329 [Worker-44: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2026-03-04 11:49:52,366 [Worker-44: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 27 resources from src\main\resources to target\classes
+2026-03-04 11:49:53,209 [Worker-44: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory E:\JAVA PROJECTS\004_STORE_APP\oss-platform\store\src\test\resources
+2026-03-04 11:49:56,556 [Worker-47: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2026-03-04 11:49:56,576 [Worker-47: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 27 resources from src\main\resources to target\classes
+2026-03-04 11:49:57,097 [Worker-47: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory E:\JAVA PROJECTS\004_STORE_APP\oss-platform\store\src\test\resources

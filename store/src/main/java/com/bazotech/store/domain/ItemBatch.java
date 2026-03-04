@@ -19,9 +19,11 @@ import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -32,6 +34,8 @@ import lombok.ToString;
 @ToString(exclude = {"inventoryItem","storeItems"}) 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table( name = "item_batches", uniqueConstraints = { @UniqueConstraint(name = "unique_batch_per_item", columnNames = {"item_id", "batch_number"}) } )
+@AllArgsConstructor
+@NoArgsConstructor
 public class ItemBatch {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 

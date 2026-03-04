@@ -135,7 +135,7 @@
 				<configuration>
 					<url>jdbc:mysql://localhost:3306/store_db</url>
                     <user>root</user>
-                    <password></password>
+                    <password>hedcrosoft@#4</password>
                     <cleanDisabled>false</cleanDisabled>
 				</configuration>
 			</plugin>

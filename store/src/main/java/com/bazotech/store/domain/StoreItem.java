@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+// TODO: Add maximum reorder level.
 @Builder
 @Setter
 @Getter

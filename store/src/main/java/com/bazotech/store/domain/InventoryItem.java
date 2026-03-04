@@ -24,7 +24,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
+//TODO: factor in the item-wise re-order level.
 @Builder
 @Getter
 @Setter
@@ -80,6 +80,10 @@ public class InventoryItem {
 	@Column(name="item_quantity")
 	private Integer itemQuantity;
 	
+	//@NotNull
+	//@Min(value=0, message="Reorder level must be non-negative")
+	//@Column(name="reorder_level")
+	//private Integer reorderLevel;
 	
 	@NotNull
 	@Column(name="item_description")

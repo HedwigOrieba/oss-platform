@@ -4,8 +4,11 @@ import java.io.Serializable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -14,6 +17,9 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 @Embeddable
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class StoreItemId implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -27,13 +33,13 @@ public class StoreItemId implements Serializable {
     @Column(name = "batch_id")
     private Long batchId;
     
-    public StoreItemId() {}
+    /*public StoreItemId() {}
 
     public StoreItemId(Long storeId, Long itemId,Long batchId) {
         this.storeId = storeId;
         this.itemId = itemId;
         this.batchId = batchId;
     }
-
+	*/
 }
 

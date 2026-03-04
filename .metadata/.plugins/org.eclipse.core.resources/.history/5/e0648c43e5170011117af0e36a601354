@@ -1,0 +1,45 @@
+package com.bazotech.store.services;
+
+import com.bazotech.store.domain.StoreItem;
+import com.bazotech.store.repositories.StoreItemRepository;
+
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+
+import java.time.LocalDateTime;
+
+import org.springframework.stereotype.Service;
+
+@Service
+@AllArgsConstructor
+public class StoreItemService {
+    private final StoreItemRepository storeItemRepository;
+    private final InventoryItemService inventoryItemService;
+    private final ItemBatchService itemBatchService;
+    private final ItemPricingService itemPricingService;
+    private final StoreService storeService;
+    private final StoreBinService storeBinService;
+    
+    // TODO: logic to check if in stock qty does not exceed the batch qty and that the price is not negative.
+    // TODO: logic for interstore transfer of items.
+    
+    @Transactional
+    public void createStoreItem(){
+        var storeItem = StoreItem.builder()
+				                .item(inventoryItemService.getInventoryItemById(1L))
+				                .itemBatch(itemBatchService.getItemBatchById(1L))
+				                .store(storeService.getStoreById(1L))
+				                .price(itemPricingService.getItemPrices(1L, "gold"))
+				                .itemsInStock(2)
+				                .itemPostingOn(LocalDateTime.now())
+				                .bin(storeBinService.getStoreBinById(1L))
+				                .build();
+        
+        System.out.println(storeItem.toString());
+        
+        storeItemRepository.save(storeItem);
+        
+        System.out.println("Store item created successfully!!");
+    }
+    
+}

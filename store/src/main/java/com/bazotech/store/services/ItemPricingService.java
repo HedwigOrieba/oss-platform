@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -14,12 +15,12 @@ public class ItemPricingService {
     private final ItemPricingRepository itemPricingRepository;
     private final InventoryItemService inventoryItemService;
 
-    public void createItemPrice(String priceCategory){
+    public void createItemPrice(String priceCategory, Long inventoryItemId, double amount){
 
         var itemPrice = ItemPricing.builder()
-                                .item(inventoryItemService.getInventoryItemById(1L))
+                                .item(inventoryItemService.getInventoryItemById(inventoryItemId))
                                 .priceCategory(getPriceCategory(priceCategory))
-                                .categoryAmount(setCategoryAmount(priceCategory))
+                                .categoryAmount(BigDecimal.valueOf(amount))
                                 .build();
         itemPricingRepository.save(itemPrice);
         System.out.println(priceCategory + " pricing created successfully!!");
@@ -33,7 +34,6 @@ public class ItemPricingService {
                 return ItemPricing.PriceCategory.GOLD;
             case "platinum":
                 return ItemPricing.PriceCategory.PLATINUM;
-
             case "silver":
                 return ItemPricing.PriceCategory.SILVER;
             default:
@@ -41,22 +41,14 @@ public class ItemPricingService {
         }
     }
 
-    // get amount by price category
-    private BigDecimal setCategoryAmount(String priceCategory){
-        switch(priceCategory){
-            case "gold":
-                return BigDecimal.valueOf(1000.00);
-            case "platinum":
-                return BigDecimal.valueOf(2000.00);
-
-            case "silver":
-                return BigDecimal.valueOf(3000.00);
-            default:
-                return BigDecimal.valueOf(1000.00);
-        }
-    }
 
     // method to get the list of prices associated to an item
+    public ItemPricing getItemPrices(Long inventoryItemId, String itemCategory) {
+    		 List<ItemPricing> itemPrices = (List<ItemPricing>) itemPricingRepository.findByItem_ItemId(inventoryItemId);
+    		 
+    		 return itemPrices.stream().filter(item -> item.getPriceCategory().name().equalsIgnoreCase(itemCategory))
+    		 							.findFirst().orElseThrow(() -> new RuntimeException("Price category not found for the item"));
+    }
 
 
 }

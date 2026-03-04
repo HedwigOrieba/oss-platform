@@ -1,0 +1,36 @@
+package com.bazotech.store.services;
+
+import org.springframework.stereotype.Service;
+
+import com.bazotech.store.domain.Store;
+import com.bazotech.store.repositories.StoreRepository;
+
+import lombok.AllArgsConstructor;
+
+
+@Service
+@AllArgsConstructor
+public class StoreService {
+	
+	/* store-service repository. */
+	private final StoreRepository storeRepository;
+	
+	/* create a store */ 
+	public void createStore() {
+		var store = Store.builder()
+						.storeName("Main Store")
+						.storeLocation("Main Street")
+						.storeType(Store.StoreType.MAIN)
+						.storeDescription("This is the main store.")
+						.build();
+		
+		storeRepository.save(store);
+		System.out.println("Store created: " + store);
+	}
+
+	public Store getStoreById(long storeId) {
+		return storeRepository.findById(storeId).orElseThrow();
+	}
+	
+	
+}
