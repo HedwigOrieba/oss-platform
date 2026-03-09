@@ -74,16 +74,16 @@ public class InventoryItem {
 	@Column(name="item_uom")
 	private UomType itemUom;
 	
-	
 	@NotNull
 	@Min(value=0, message="Quantity must be non-negative")
 	@Column(name="item_quantity")
 	private Integer itemQuantity;
 	
-	//@NotNull
-	//@Min(value=0, message="Reorder level must be non-negative")
-	//@Column(name="reorder_level")
-	//private Integer reorderLevel;
+	
+	@NotNull
+	@Min(value=0, message="Reorder level must be non-negative")
+	@Column(name="reorder_level")
+	private Integer reorderLevel;
 	
 	@NotNull
 	@Column(name="item_description")
@@ -147,25 +147,6 @@ public class InventoryItem {
 		storeItem.setItem(null); 
 	}
 	
-	/* Linkage to tags*/
-	@ManyToMany
-	@Builder.Default
-	@JoinTable( name="item_tag_map", 
-	joinColumns=@JoinColumn(name="item_id"), inverseJoinColumns=@JoinColumn(name="tag_id") ) 
-	private List<ItemTag> tags = new ArrayList<>(); 
-	
-	/* helper methods for the tags collection */
-	public void addTag(ItemTag tag) {
-		if (!tags.contains(tag)){
-			tags.add(tag);
-			tag.getItems().add(this);
-		}
-	}
-	
-	public void removeTag(ItemTag tag) {
-		tags.remove(tag);
-		tag.getItems().remove(this);
-	}
 	
 	/* enum for the UOMs */
 	public enum UomType{

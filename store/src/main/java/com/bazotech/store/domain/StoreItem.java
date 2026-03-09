@@ -1,11 +1,14 @@
 package com.bazotech.store.domain;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
@@ -17,6 +20,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import java.util.ArrayList;
 
 // TODO: Add maximum reorder level.
 @Builder
@@ -67,6 +71,34 @@ public class StoreItem {
     @OneToOne
     @JoinColumn(name="bin_id", nullable=false, unique=true) 
     private StoreBin bin;
+    
+
+	/* Linkage to tags*/
+	@ManyToMany
+	@Builder.Default
+	@JoinTable(
+			    name = "store_item_tagging",
+			    joinColumns = {
+						        @JoinColumn(name = "store_id", referencedColumnName = "store_id"),
+						        @JoinColumn(name = "item_id", referencedColumnName = "item_id"),
+						        @JoinColumn(name = "batch_id", referencedColumnName = "batch_id")
+			    },
+			    inverseJoinColumns = @JoinColumn(name = "tag_id")
+			)
+	private List<ItemTag> tags = new ArrayList<>(); 
+	
+	/* helper methods for the tags collection */
+	public void addTag(ItemTag tag) {
+		if (!tags.contains(tag)){
+			tags.add(tag);
+			tag.getItems().add(this);
+		}
+	}
+	
+	public void removeTag(ItemTag tag) {
+		tags.remove(tag);
+		tag.getItems().remove(this);
+	}
     
 }
 

@@ -54,7 +54,9 @@ create index idx_vendor_merchant_merchant on vendor_merchant_associations(mercha
 create table if not exists item_categories(
 	category_id bigint not null auto_increment primary key,
 	category_name varchar(255),
-	category_description text not null
+	category_description text not null,
+	
+	constraint unique_category_name unique(category_name)
 );
 
 
@@ -112,6 +114,7 @@ create table if not exists inventory_items(
 	item_uom varchar (255) not null,
 	item_quantity integer default 0 not null,
 	item_description text not null,
+	itemQuantity integer default 0 not null,
 	
 	
 	foreign key (merchant_id) references merchants(merchant_id),
@@ -271,13 +274,15 @@ create index idx_business_addresses_vendor on business_addresses(vendor_id);
 
 
 /* item_tag_map */
-create table if not exists item_tag_map (
+create table if not exists store_item_tagging (
+    store_id bigint not null,
     item_id bigint not null,
-    tag_id bigint not null,
-    primary key (item_id, tag_id),
+    batch_id bigint not null,
+    primary key (store_id,item_id, batch_id),
     
-    foreign key (item_id) references inventory_items(item_id),
-    foreign key (tag_id) references item_tags(tag_id)
+    foreign key (store_id) references stores(store_id),
+    foreign key (item_id)  references inventory_items(item_id),
+    foreign key (batch_id) references item_batches(batch_id)
 );
 
 
