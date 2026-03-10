@@ -280,8 +280,8 @@ create table if not exists store_item_tagging (
     batch_id bigint not null,
     primary key (store_id,item_id, batch_id),
     
-    foreign key (store_id) references stores(store_id),
-    foreign key (item_id)  references inventory_items(item_id),
+    foreign key (store_id) references store(store_id),
+    foreign key (item_id) references inventory_item(item_id),
     foreign key (batch_id) references item_batches(batch_id)
 );
 

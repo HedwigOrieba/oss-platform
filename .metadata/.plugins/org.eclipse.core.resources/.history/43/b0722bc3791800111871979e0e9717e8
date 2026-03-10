@@ -114,7 +114,6 @@ create table if not exists inventory_items(
 	item_uom varchar (255) not null,
 	item_quantity integer default 0 not null,
 	item_description text not null,
-	itemQuantity integer default 0 not null,
 	
 	
 	foreign key (merchant_id) references merchants(merchant_id),
@@ -280,9 +279,9 @@ create table if not exists store_item_tagging (
     batch_id bigint not null,
     primary key (store_id,item_id, batch_id),
     
-    foreign key (store_id) references stores(store_id),
-    foreign key (item_id)  references inventory_items(item_id),
-    foreign key (batch_id) references item_batches(batch_id)
+    foreign key (store_id) references inventory_items(store_id),
+    foreign key (item_id) references item_tags(item_id),
+    foreign key (batch_id) references item_tags(batch_id)
 );
 
 
