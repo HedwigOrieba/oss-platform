@@ -9,6 +9,8 @@ import com.bazotech.store.repositories.StoreShelfRepository;
 
 import lombok.AllArgsConstructor;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class StoreBinService {
@@ -35,6 +37,40 @@ public class StoreBinService {
 	
 	// get store bin by id.
 	public StoreBin getStoreBinById(Long id) {
-		return storeBinRepository.findById(id).orElseThrow();
+		return storeBinRepository.findById(id)
+				.orElseThrow(()-> new RuntimeException("StoreBin Not Found!"));
 	}
+
+	// return list of bins by slot status
+	public List<StoreBin> getAllStoreBinsStatus(SlotStatus slotStatus) {
+		return storeBinRepository.findAllBySlotStatus(slotStatus);
+	}
+
+	// 	update bin
+	public void updateStoreBinById(Long id, StoreBin storeBin) {
+		boolean changed = false;
+
+		var store_bin = getStoreBinById(id);
+
+		store_bin.setShelf(storeBin.getShelf());
+		store_bin.setBinLabel(storeBin.getBinLabel());
+		store_bin.setSlotStaus(storeBin.getSlotStaus());
+
+		changed = true;
+
+		if (!changed) {
+			throw new RuntimeException("No data changes found");
+		}
+
+		storeBinRepository.save(store_bin);
+		System.out.println("Bin updated successfully!!");
+
+	}
+
+	// delete bin
+	public void deleteStoreBinById(Long id) {
+		storeBinRepository.deleteById(id);
+		System.out.println("Bin deleted successfully!!");
+	}
+
 }

@@ -28,7 +28,7 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-@ToString(exclude= {"products","storeItems","tags"})
+@ToString(exclude= {"storeItems"})
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name="inventory_items")
 @Entity
@@ -40,7 +40,7 @@ public class InventoryItem {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	@Column(name="item_id", nullable=false)
-	private Long itemId;// byte:8bits,short:2bytes,int:4bytes,long:8byte,10,000,000
+	private Long itemId;
 	
 	@NotNull
 	@ManyToOne(optional=false) 
@@ -111,23 +111,23 @@ public class InventoryItem {
 	
 	
 	/* linkage to client facing products. */
-	@Builder.Default
-	@OneToMany(mappedBy="inventoryItem", cascade=CascadeType.ALL, orphanRemoval=true)
-	List<Product> products = new ArrayList<>();
-	
-	/* helper method for products collection */
-	public void addProduct(Product product) {
-		if (!products.contains(product)){
-		    products.add(product);
-		    product.setInventoryItem(this);
-		}
-	}
-
-	
-	public void removeProduct(Product product) { 
-		products.remove(product); 
-		product.setInventoryItem(null); 
-	}
+//	@Builder.Default
+//	@OneToMany(mappedBy="inventoryItem", cascade=CascadeType.ALL, orphanRemoval=true)
+//	List<Product> products = new ArrayList<>();
+//
+//	/* helper method for products collection */
+//	public void addProduct(Product product) {
+//		if (!products.contains(product)){
+//		    products.add(product);
+//		    product.setInventoryItem(this);
+//		}
+//	}
+//
+//
+//	public void removeProduct(Product product) {
+//		products.remove(product);
+//		product.setInventoryItem(null);
+//	}
 	
 	/* Linkage to the stores */
 	@Builder.Default
@@ -147,26 +147,7 @@ public class InventoryItem {
 		storeItem.setItem(null); 
 	}
 	
-	/* Linkage to tags*/
-	@ManyToMany
-	@Builder.Default
-	@JoinTable( name="item_tag_map", 
-	joinColumns=@JoinColumn(name="item_id"), inverseJoinColumns=@JoinColumn(name="tag_id") ) 
-	private List<ItemTag> tags = new ArrayList<>(); 
-	
-	/* helper methods for the tags collection */
-	public void addTag(ItemTag tag) {
-		if (!tags.contains(tag)){
-			tags.add(tag);
-			tag.getItems().add(this);
-		}
-	}
-	
-	public void removeTag(ItemTag tag) {
-		tags.remove(tag);
-		tag.getItems().remove(this);
-	}
-	
+
 	/* enum for the UOMs */
 	public enum UomType{
 		

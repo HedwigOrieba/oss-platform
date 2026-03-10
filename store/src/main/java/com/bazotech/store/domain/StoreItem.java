@@ -1,15 +1,10 @@
 package com.bazotech.store.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -22,7 +17,7 @@ import lombok.ToString;
 @Builder
 @Setter
 @Getter
-@ToString(exclude= {})
+@ToString(exclude= {"tags","stagedItems"})
 @EqualsAndHashCode(onlyExplicitlyIncluded=true)
 @Entity
 @Table(name="store_items")
@@ -67,6 +62,45 @@ public class StoreItem {
     @OneToOne
     @JoinColumn(name="bin_id", nullable=false, unique=true) 
     private StoreBin bin;
-    
+
+    // TODO : Open to investigation
+    @OneToMany(mappedBy = "storeItem", cascade = CascadeType.ALL, fetch = FetchType.LAZY,  orphanRemoval = true)
+    @Builder.Default
+    private List<StagedItem> stagedItems = new ArrayList<>();
+
+    public void addStagedItem(StagedItem stagedItem) {
+        if(!stagedItems.contains(stagedItem)){
+            stagedItems.add(stagedItem);
+        }
+    }
+
+    public void removeStagedItem(StagedItem stagedItem) {
+        stagedItems.remove(stagedItem);
+    }
+
+    /* Linkage to tags*/
+    @ManyToMany
+    @Builder.Default
+    @JoinTable( name="item_tag_map",
+            joinColumns=@JoinColumn(name="id"), inverseJoinColumns=@JoinColumn(name="tag_id") )
+    private List<ItemTag> tags = new ArrayList<>();
+
+    /* helper methods for the tags collection */
+    public void addTag(ItemTag tag) {
+        if (!tags.contains(tag)){
+            tags.add(tag);
+            tag.getItems().add(this);
+        }
+    }
+
+    public void removeTag(ItemTag tag) {
+        tags.remove(tag);
+        tag.getItems().remove(this);
+    }
+
+
+
+
+
 }
 

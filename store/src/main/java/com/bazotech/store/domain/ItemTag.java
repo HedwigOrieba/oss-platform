@@ -42,17 +42,17 @@ public class ItemTag {
 	
 	@ManyToMany(mappedBy="tags")
 	@Builder.Default
-	private List<InventoryItem> items = new ArrayList<>();
+	private List<StoreItem> items = new ArrayList<>();
 	
 	/* Helper Methods to make managing tags from this end of the relationship possible */
-	public void addItem(InventoryItem item) {
+	public void addItem(StoreItem item) {
 	    if (!items.contains(item)) {
 	        items.add(item);
 	        item.getTags().add(this);
 	    }
 	}
 
-	public void removeItem(InventoryItem item) {
+	public void removeItem(StoreItem item) {
 	    items.remove(item);
 	    item.getTags().remove(this);
 	}

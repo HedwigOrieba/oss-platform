@@ -4,16 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -48,14 +39,17 @@ public class Product {
 	@Column(name="product_specification")
 	private String specification;
 
-	@NotNull
-	@ManyToOne
-	@JoinColumn(name = "item_id")
-	private InventoryItem inventoryItem;
+//	@NotNull
+//	@ManyToOne
+//	@JoinColumn(name = "item_id")
+//	private InventoryItem inventoryItem;
+
+	@OneToOne
+	@JoinColumn(name = "staging_id")
+	private StagedItem stagedItem;
 
 	/* Product Date-of-Creation */
 	@NotNull
-	
 	private LocalDateTime publishedOn;
 	@Column(name="published_on")
 	
