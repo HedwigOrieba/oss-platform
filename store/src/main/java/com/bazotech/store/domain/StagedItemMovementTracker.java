@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @Setter
 @Getter
-@ToString(exclude= {})
+@ToString(exclude= {"stagedItemStatuses"})
 @EqualsAndHashCode(onlyExplicitlyIncluded=true)
 @Entity
 @Table(name="staged_item_movement_tracker")
@@ -24,31 +24,24 @@ public class StagedItemMovementTracker {
     @Column(name = "tracker_id")
     private Long tracker_id;
 
-//    @ManyToOne()
-//    @JoinColumn(name = "id")
-//    private StoreItem storeItem;
-
     // Item instance to be tracked
     @OneToOne
     @JoinColumn(name = "staging_id")
+    @NotNull
     private StagedItem stagedItem;
 
     @OneToMany(mappedBy = "activeMovement", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<StagedItemStatusTracker> stagedItemStatuses = new ArrayList<>();
 
-//    @NotNull
-//    @Min(value=0, message="Quantity must be non-negative")
-//    private Integer quantity = 0;
-
     @Enumerated(EnumType.STRING)
-    @Column(name = "movement_status")
+    @Column(name = "movement_type")
     @NotNull
-   private MovementType movementType;
+    private MovementType movementType;
 
-    @NotNull
+    // Supplementary user provided remark during staged item movement
     @Column(name="remark")
-    private String remark;   // Remarks for moving an item instance
+    private String remark;
 
     @Column(name="created_on")
     private LocalDateTime createdOn;
@@ -74,4 +67,17 @@ public class StagedItemMovementTracker {
             this.movementLabel = movement_label;
         }
     }
+
+    /* Helper methods for staged item status tracker */
+    public void addStagedItemStatusTracker(StagedItemStatusTracker stagedItemStatusTracker) {
+        if(!stagedItemStatuses.contains(stagedItemStatusTracker)){
+            stagedItemStatuses.add(stagedItemStatusTracker);
+        }
+    }
+
+    public void removeStagedItemStatusTracker(StagedItemStatusTracker stagedItemStatusTracker) {
+        stagedItemStatuses.remove(stagedItemStatusTracker);
+    }
+
+
 }

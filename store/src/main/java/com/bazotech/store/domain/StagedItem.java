@@ -1,8 +1,10 @@
 package com.bazotech.store.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,7 +14,7 @@ import java.util.UUID;
 @Builder
 @Setter
 @Getter
-@ToString()
+@ToString(exclude = {"movementTrackers","statusTrackers"})
 @EqualsAndHashCode(onlyExplicitlyIncluded=true)
 @Entity
 @Table(name="item_staging_area")
@@ -25,18 +27,28 @@ public class StagedItem {
     @EqualsAndHashCode.Include
     private Long stagingId;
 
-    @ManyToOne()
+    // Linkage Point to Store Item
+    @ManyToOne
     @JoinColumn(name ="id", nullable = false)
     private StoreItem storeItem;
 
-
+    // Linkage Point to Product
     @OneToOne(mappedBy = "stagedItem")
     private Product product;
 
-    // TODO: have the UUID be generated according to the merchant standards
-    @Column(nullable = false, unique = true)
+    @Column(name = "product_image")
+    @NotEmpty(message = "Product image must not be empty ")
+    private String productImage;
+
+    // Mandatory system-defined id for staged item for internal tracking
+    @Column(name = "system_item_code", nullable = false)
     @NotNull
-    private UUID stagedItemCode;
+    @UuidGenerator(style = UuidGenerator.Style.TIME)
+    private UUID systemItemCode;
+
+    // Optional user-defined id for staged item
+    @Column(name = "custom_identifier", nullable = true)
+    private String customIdentifier;
 
     @OneToMany(mappedBy = "stagedItem", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
@@ -55,11 +67,32 @@ public class StagedItem {
         this.stagedOn = LocalDateTime.now();
     }
 
-    @Column(name="updated_on")
-    private LocalDateTime updatedOn;
+//    @Column(name="updated_on")
+//    private LocalDateTime updatedOn;
+//
+//    @PostPersist
+//    protected void onUpdate() {
+//        this.updatedOn = LocalDateTime.now();
+//    }
 
-    @PostPersist
-    protected void onUpdate() {
-        this.updatedOn = LocalDateTime.now();
+    /* Helper methods for staged item movement tracker */
+    public void addMovementTracker(StagedItemMovementTracker movementTracker) {
+        if(!movementTrackers.contains(movementTracker)) {
+            movementTrackers.add(movementTracker);
+        }
+    }
+
+    public void removeMovementTracker(StagedItemMovementTracker movementTracker) {
+        movementTrackers.remove(movementTracker);
+    }
+
+    /* Helper methods for staged item status tracker */
+    public void addStatusTracker(StagedItemStatusTracker statusTracker) {
+        if(!statusTrackers.contains(statusTracker)) {
+            statusTrackers.add(statusTracker);
+        }
+    }
+    public void removeStatusTracker(StagedItemStatusTracker statusTracker) {
+        statusTrackers.remove(statusTracker);
     }
 }

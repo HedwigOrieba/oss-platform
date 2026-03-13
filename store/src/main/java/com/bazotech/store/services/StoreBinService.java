@@ -73,4 +73,5 @@ public class StoreBinService {
 		System.out.println("Bin deleted successfully!!");
 	}
 
+	// TODO: Batch creation
 }

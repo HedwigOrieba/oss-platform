@@ -114,7 +114,6 @@ create table if not exists inventory_items(
 	item_uom varchar (255) not null,
 	item_quantity integer default 0 not null,
 	item_description text not null,
-	itemQuantity integer default 0 not null,
 	
 	
 	foreign key (merchant_id) references merchants(merchant_id),
@@ -200,9 +199,8 @@ create table if not exists store_bin(
 	foreign key(shelf_id) references store_shelf(shelf_id)
 );
 
-
+/* table store_items */
 create table if not exists store_items (
-	
     store_id bigint not null,
     item_id bigint not null,
     batch_id bigint not null,
@@ -273,17 +271,61 @@ create index idx_business_addresses_merchant on business_addresses(merchant_id);
 create index idx_business_addresses_vendor on business_addresses(vendor_id);
 
 
-/* item_tag_map */
+/* store_item_tag_map */
 create table if not exists store_item_tagging (
     store_id bigint not null,
     item_id bigint not null,
     batch_id bigint not null,
-    primary key (store_id,item_id, batch_id),
+    tag_id bigint not null,
+    primary key (store_id,item_id, batch_id, tag_id),
     
     foreign key (store_id) references stores(store_id),
     foreign key (item_id)  references inventory_items(item_id),
-    foreign key (batch_id) references item_batches(batch_id)
+    foreign key (batch_id) references item_batches(batch_id),
+    foreign key (tag_id) references   item_tags(tag_id)
 );
+
+/* table item_staging_area */
+create table if not exists item_staging_area(
+    staging_id bigint not null primary key auto_increment,
+    store_item_id bigint not null,
+    product_image varchar(255) not null,
+    system_item_code binary(16) not null unique,
+    custom_identifier varchar(255) unique,
+
+    staged_on datetime not null default current_timestamp,
+
+    foreign key (store_item_id) references store_items(store_id, item_id, batch_id)
+);
+
+/* table staged_item_movement_tracker */
+create table if not exists staged_item_movement_tracker(
+    tracker_id bigint not null primary key auto_increment,
+    staging_id bigint not null,
+    movement_type varchar(255) not null,
+    remark text,
+
+    created_on datetime not null default current_timestamp,
+
+    foreign key (staging_id) references item_staging_area(staging_id)
+);
+
+/* table staged_item_status_tracker */
+create table if not exists staged_item_status_tracker(
+    status_tracker_id bigint not null primary key auto_increment,
+    staging_id bigint not null,
+    tracker_id bigint not null,
+    staged_item_status varchar(255) not null,
+    remark text,
+
+    created_on datetime not null default current_timestamp,
+
+    foreign key (staging_id) references item_staging_area(staging_id),
+    foreign key (tracker_id) references staged_item_movement_tracker(tracker_id)
+);
+
+
+
 
 
 

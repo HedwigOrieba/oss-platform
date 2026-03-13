@@ -10,7 +10,7 @@ import java.util.List;
 @Builder
 @Setter
 @Getter
-@ToString()
+@ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded=true)
 @Entity
 @Table(name="staged_item_status_tracker")
@@ -27,10 +27,12 @@ public class StagedItemStatusTracker {
     // Item instance to be tracked
     @OneToOne
     @JoinColumn(name = "staging_id")
+    @NotNull
     private StagedItem stagedItem;
 
     @OneToOne
     @JoinColumn(name = "tracker_id")
+    @NotNull
     private StagedItemMovementTracker activeMovement;
 
     @Enumerated(EnumType.STRING)
@@ -38,9 +40,9 @@ public class StagedItemStatusTracker {
     @NotNull
     private StagedItemStatus stagedItemStatus;
 
-    @NotNull
+    // Supplementary user provided remark observed when staged item changes status
     @Column(name="remark")
-    private String remark;   // Remarks for an item instance status
+    private String remark;
 
     @Column(name="created_on")
     private LocalDateTime createdOn;
@@ -53,7 +55,6 @@ public class StagedItemStatusTracker {
 
     /* Status type Enumeration */
     public enum StagedItemStatus {
-
         SOLD,
         EXPIRED ,
         REJECTED,
@@ -65,8 +66,6 @@ public class StagedItemStatusTracker {
         PENDING,
         PROMOTED,
         DEMOTED
-
-
     }
     }
 

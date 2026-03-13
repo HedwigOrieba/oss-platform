@@ -3,8 +3,6 @@ package com.bazotech.store.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.bazotech.store.domain.StoreBin.SlotStatus;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -50,19 +48,19 @@ public class StoreRack {
 	/* Shelf Relationship */
 	@Builder.Default
 	@OneToMany(mappedBy="rack", cascade=CascadeType.ALL, orphanRemoval=true)
-	List<StoreShelf> rackshelves = new ArrayList<>();
+	List<StoreShelf> rackShelves = new ArrayList<>();
 	
 	/** Helper method to add a store rack **/
 	public void addRackShelf(StoreShelf storeshelf) {
-		if(!rackshelves.contains(storeshelf)) {
-			rackshelves.add(storeshelf);
+		if(!rackShelves.contains(storeshelf)) {
+			rackShelves.add(storeshelf);
 			storeshelf.setRack(this);
 		}
 	}
 	
 	/** Helper method to remove a store rack **/
 	public void removeRackShelf(StoreShelf storeshelf) {
-		rackshelves.remove(storeshelf);
+		rackShelves.remove(storeshelf);
 		storeshelf.setRack(null);
 	}
 	

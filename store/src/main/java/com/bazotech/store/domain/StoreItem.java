@@ -81,8 +81,13 @@ public class StoreItem {
     /* Linkage to tags*/
     @ManyToMany
     @Builder.Default
-    @JoinTable( name="item_tag_map",
-            joinColumns=@JoinColumn(name="id"), inverseJoinColumns=@JoinColumn(name="tag_id") )
+    @JoinTable( name="store_item_tagging",
+            joinColumns={
+            @JoinColumn(name = "store_id", referencedColumnName = "storeId"),
+            @JoinColumn(name = "item_id", referencedColumnName = "itemId"),
+            @JoinColumn(name = "batch_id", referencedColumnName = "batchId")
+            },
+            inverseJoinColumns=@JoinColumn(name="tag_id") )
     private List<ItemTag> tags = new ArrayList<>();
 
     /* helper methods for the tags collection */
